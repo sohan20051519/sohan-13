@@ -117,8 +117,8 @@ export function ProjectsSection() {
                         </div>
                       </div>
 
-                      <div className="md:w-1/2 flex flex-col">
-                        <CardHeader className="flex-1">
+                      <div className="md:w-1/2 flex flex-col p-6">
+                        <CardHeader>
                           <div className="flex items-start justify-between">
                             <div>
                               <CardTitle className="text-xl font-semibold text-text-primary group-hover:gradient-text transition-all duration-300">
@@ -136,7 +136,7 @@ export function ProjectsSection() {
                           </div>
                         </CardHeader>
 
-                        <CardContent className="mt-auto">
+                        <CardContent>
                           <div className="flex flex-wrap gap-2 mb-6">
                             {project.technologies.map((tech) => (
                               <Badge
