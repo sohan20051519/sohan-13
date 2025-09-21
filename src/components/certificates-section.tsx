@@ -4,7 +4,8 @@ import { Award, Shield, GitBranch, Cloud, Code, Eye } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ImagePreviewModal } from "@/components/image-preview-modal"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { useState, useEffect, useRef } from "react"
+import { useState, useRef } from "react"
+import Autoplay from "embla-carousel-autoplay"
 import useEmblaCarousel from "embla-carousel-react"
 
 // Certificate images
@@ -75,24 +76,23 @@ const categoryColors = {
   "Programming": "bg-orange-500/10 text-orange-400 border-orange-500/20"
 }
 
+import { useIsMobile } from "@/hooks/use-is-mobile"
+import AutoScroll from "embla-carousel-auto-scroll"
+
 export function CertificatesSection() {
   const [selectedCertificate, setSelectedCertificate] = useState<{
     image: string;
     title: string;
   } | null>(null)
+  const isMobile = useIsMobile()
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({ 
-    loop: true,
-    align: "start",
-    slidesToScroll: 1,
-    duration: 20,
-    dragFree: false,
-    containScroll: "trimSnaps",
-    skipSnaps: false,
-  })
-
-  const [isPaused, setIsPaused] = useState(false)
-  const autoScrollRef = useRef<NodeJS.Timeout | null>(null)
+  const plugins = useRef([
+    AutoScroll({
+      speed: isMobile ? 0.5 : 1,
+      stopOnInteraction: false,
+      stopOnMouseEnter: true,
+    }),
+  ])
 
   const handleViewCertificate = (cert: typeof certificates[0]) => {
     setSelectedCertificate({
@@ -100,65 +100,6 @@ export function CertificatesSection() {
       title: cert.title
     })
   }
-
-  // Fast continuous auto scroll
-  useEffect(() => {
-    if (!emblaApi) return
-
-    const startAutoScroll = () => {
-      if (autoScrollRef.current) {
-        clearInterval(autoScrollRef.current)
-      }
-
-      const isMobile = window.innerWidth < 768
-      const scrollDelay = isMobile ? 1800 : 2200 // Faster speed
-
-      autoScrollRef.current = setInterval(() => {
-        if (!isPaused && emblaApi) {
-          emblaApi.scrollNext()
-        }
-      }, scrollDelay)
-    }
-
-    const stopAutoScroll = () => {
-      if (autoScrollRef.current) {
-        clearInterval(autoScrollRef.current)
-        autoScrollRef.current = null
-      }
-    }
-
-    // Start auto scroll
-    startAutoScroll()
-
-    // Handle drag events
-    emblaApi.on('pointerDown', () => {
-      setIsPaused(true)
-      stopAutoScroll()
-    })
-
-    emblaApi.on('pointerUp', () => {
-      setIsPaused(false)
-      setTimeout(startAutoScroll, 1000) // Resume after 1 second
-    })
-
-    return () => {
-      stopAutoScroll()
-    }
-  }, [emblaApi, isPaused])
-
-  // Handle visibility change to pause/resume auto scroll
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        setIsPaused(true)
-      } else {
-        setIsPaused(false)
-      }
-    }
-
-    document.addEventListener('visibilitychange', handleVisibilityChange)
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
-  }, [])
 
   return (
     <section id="certificates" className="py-20 relative overflow-hidden">
@@ -175,104 +116,98 @@ export function CertificatesSection() {
           
           <div className="relative overflow-hidden">
             <Carousel
-              ref={emblaRef}
+              plugins={plugins.current}
               className="w-full overflow-hidden"
               opts={{
                 align: "start",
                 loop: true,
-                duration: 25,
-                containScroll: "trimSnaps",
+                dragFree: true,
               }}
             >
-              <CarouselContent className="-ml-2 md:-ml-4" style={{ width: '100%' }}>
-              {certificates.map((cert, index) => {
-                const IconComponent = cert.icon
-                return (
-                  <CarouselItem 
-                    key={cert.title} 
-                    className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3"
-                    onMouseEnter={() => setIsPaused(true)}
-                    onMouseLeave={() => setIsPaused(false)}
-                    onTouchStart={() => setIsPaused(true)}
-                    onTouchEnd={() => setIsPaused(false)}
-                  >
-                    <Card 
-                      className="glass border-border-elevated hover:glow transition-all duration-300 animate-fade-in-up group h-full"
-                      style={{ animationDelay: `${index * 0.1}s` }}
+              <CarouselContent className="-ml-2 md:-ml-4">
+                {certificates.map((cert, index) => {
+                  const IconComponent = cert.icon
+                  return (
+                    <CarouselItem
+                      key={cert.title}
+                      className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3"
                     >
-                      <CardHeader>
-                        <div className="flex items-start gap-4">
-                          <div className="p-3 glass rounded-lg group-hover:glow transition-all duration-300">
-                            <IconComponent className="h-6 w-6 text-primary" />
-                          </div>
-                          <div className="flex-1">
-                            <CardTitle className="text-lg font-semibold text-text-primary mb-2">
-                              {cert.title}
-                            </CardTitle>
-                            <div className="flex items-center justify-between">
-                              <Badge 
-                                variant="secondary"
-                                className={categoryColors[cert.category as keyof typeof categoryColors]}
-                              >
-                                {cert.category}
-                              </Badge>
-                              <span className="text-xs text-text-secondary">{cert.date}</span>
+                      <Card
+                        className="glass border-border-elevated hover:glow transition-all duration-300 animate-fade-in-up group h-full"
+                        style={{ animationDelay: `${index * 0.1}s` }}
+                      >
+                        <CardHeader>
+                          <div className="flex items-start gap-4">
+                            <div className="p-3 glass rounded-lg group-hover:glow transition-all duration-300">
+                              <IconComponent className="h-6 w-6 text-primary" />
                             </div>
-                          </div>
-                        </div>
-                        
-                        {/* Certificate Preview Image */}
-                        <div className="mt-4">
-                          <img
-                            src={cert.image}
-                            alt={`${cert.title} Certificate Preview`}
-                            className="w-full h-32 object-cover rounded-lg border border-border-elevated cursor-pointer hover:scale-105 transition-transform duration-200"
-                            onClick={() => handleViewCertificate(cert)}
-                          />
-                        </div>
-                      </CardHeader>
-                      
-                      <CardContent>
-                        <CardDescription className="text-text-secondary mb-4 leading-relaxed">
-                          {cert.description}
-                        </CardDescription>
-                        
-                        <div className="space-y-3 mb-4">
-                          <div>
-                            <p className="text-sm font-medium text-text-secondary mb-1">Issuer:</p>
-                            <p className="text-sm text-text-primary">{cert.issuer}</p>
-                          </div>
-                          
-                          <div>
-                            <p className="text-sm font-medium text-text-secondary mb-2">Key Skills:</p>
-                            <div className="flex flex-wrap gap-1">
-                              {cert.skills.map((skill) => (
+                            <div className="flex-1">
+                              <CardTitle className="text-lg font-semibold text-text-primary mb-2">
+                                {cert.title}
+                              </CardTitle>
+                              <div className="flex items-center justify-between">
                                 <Badge 
-                                  key={skill}
-                                  variant="outline"
-                                  className="text-xs border-border-elevated hover:scale-105 transition-transform duration-200"
+                                  variant="secondary"
+                                  className={categoryColors[cert.category as keyof typeof categoryColors]}
                                 >
-                                  {skill}
+                                  {cert.category}
                                 </Badge>
-                              ))}
+                                <span className="text-xs text-text-secondary">{cert.date}</span>
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        <Button
-                          onClick={() => handleViewCertificate(cert)}
-                          variant="outline"
-                          size="sm"
-                          className="w-full border-border-elevated hover:glow transition-all duration-300"
-                        >
-                          <Eye className="h-4 w-4 mr-2" />
-                          View Certificate
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  </CarouselItem>
-                )
-              })}
+                          <div className="mt-4">
+                            <img
+                              src={cert.image}
+                              alt={`${cert.title} Certificate Preview`}
+                              className="w-full h-32 object-cover rounded-lg border border-border-elevated cursor-pointer hover:scale-105 transition-transform duration-200"
+                              onClick={() => handleViewCertificate(cert)}
+                            />
+                          </div>
+                        </CardHeader>
+
+                        <CardContent>
+                          <CardDescription className="text-text-secondary mb-4 leading-relaxed">
+                            {cert.description}
+                          </CardDescription>
+
+                          <div className="space-y-3 mb-4">
+                            <div>
+                              <p className="text-sm font-medium text-text-secondary mb-1">Issuer:</p>
+                              <p className="text-sm text-text-primary">{cert.issuer}</p>
+                            </div>
+
+                            <div>
+                              <p className="text-sm font-medium text-text-secondary mb-2">Key Skills:</p>
+                              <div className="flex flex-wrap gap-1">
+                                {cert.skills.map((skill) => (
+                                  <Badge
+                                    key={skill}
+                                    variant="outline"
+                                    className="text-xs border-border-elevated hover:scale-105 transition-transform duration-200"
+                                  >
+                                    {skill}
+                                  </Badge>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+
+                          <Button
+                            onClick={() => handleViewCertificate(cert)}
+                            variant="outline"
+                            size="sm"
+                            className="w-full border-border-elevated hover:glow transition-all duration-300"
+                          >
+                            <Eye className="h-4 w-4 mr-2" />
+                            View Certificate
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                  )
+                })}
               </CarouselContent>
               <CarouselPrevious className="glass border-border-elevated hover:bg-surface-elevated hidden md:flex" />
               <CarouselNext className="glass border-border-elevated hover:bg-surface-elevated hidden md:flex" />

@@ -74,27 +74,20 @@ export function ProjectsSection() {
   useEffect(() => {
     const handleScroll = () => {
       if (sectionRef.current) {
-        const rect = sectionRef.current.getBoundingClientRect()
+        const { top, height } = sectionRef.current.getBoundingClientRect()
         const windowHeight = window.innerHeight
-        const sectionHeight = rect.height
         
-        // Calculate which card should be active based on scroll position
-        if (rect.top <= windowHeight * 0.5 && rect.bottom >= windowHeight * 0.5) {
-          // Section is in view, calculate progress through section
-          const sectionProgress = Math.max(0, Math.min(1, 
-            (windowHeight * 0.5 - rect.top) / (sectionHeight - windowHeight * 0.5)
-          ))
-          
-          // Determine active card index based on progress
-          const newActiveIndex = Math.min(
-            projects.length - 1, 
-            Math.floor(sectionProgress * (projects.length + 1))
-          )
-          
-          if (newActiveIndex !== activeCardIndex) {
-            setActiveCardIndex(newActiveIndex)
-            console.log('Active card index:', newActiveIndex, 'Progress:', sectionProgress.toFixed(2))
-          }
+        const scrollableHeight = height - windowHeight
+        const stepHeight = scrollableHeight / projects.length
+
+        const scrollY = Math.max(0, -top)
+        const newActiveIndex = Math.min(
+          projects.length - 1,
+          Math.floor(scrollY / stepHeight)
+        )
+
+        if (newActiveIndex !== activeCardIndex) {
+          setActiveCardIndex(newActiveIndex)
         }
       }
     }
@@ -106,7 +99,7 @@ export function ProjectsSection() {
   }, [activeCardIndex])
 
   const getCardStyle = (index: number) => {
-    const isActive = index <= activeCardIndex
+    const isActive = index === activeCardIndex
     const isNext = index === activeCardIndex + 1
     const isPast = index < activeCardIndex
     
@@ -138,6 +131,7 @@ export function ProjectsSection() {
       opacity,
       zIndex,
       transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+      pointerEvents: isActive ? 'auto' : 'none',
     }
   }
 
@@ -167,7 +161,7 @@ export function ProjectsSection() {
                       ref={(el) => (cardRefs.current[index] = el)}
                       className={`absolute left-0 right-0 glass border-border-elevated hover:glow group cursor-pointer ${
                         project.featured ? 'border-primary/30' : ''
-                      } ${index <= activeCardIndex ? 'pointer-events-auto' : 'pointer-events-none'}`}
+                      }`}
                       style={cardStyle}
                     >
                   <div className="flex flex-col md:flex-row h-full">
