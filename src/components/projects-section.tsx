@@ -59,8 +59,9 @@ export function ProjectsSection() {
     title: string
   } | null>(null)
 
-  const [scrollProgress, setScrollProgress] = useState(0)
+  const [activeCardIndex, setActiveCardIndex] = useState(0)
   const sectionRef = useRef<HTMLElement>(null)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
 
   const openPreview = (src: string, alt: string, title: string) => {
     setPreviewImage({ src, alt, title })
@@ -77,13 +78,24 @@ export function ProjectsSection() {
         const windowHeight = window.innerHeight
         const sectionHeight = rect.height
         
-        // Calculate how much of the section has been scrolled through
-        const scrolled = Math.max(0, windowHeight - rect.top)
-        const totalScrollDistance = windowHeight + sectionHeight
-        const progress = Math.min(1, scrolled / totalScrollDistance)
-        
-        setScrollProgress(progress)
-        console.log('Scroll progress:', progress.toFixed(2), 'Rect top:', rect.top)
+        // Calculate which card should be active based on scroll position
+        if (rect.top <= windowHeight * 0.5 && rect.bottom >= windowHeight * 0.5) {
+          // Section is in view, calculate progress through section
+          const sectionProgress = Math.max(0, Math.min(1, 
+            (windowHeight * 0.5 - rect.top) / (sectionHeight - windowHeight * 0.5)
+          ))
+          
+          // Determine active card index based on progress
+          const newActiveIndex = Math.min(
+            projects.length - 1, 
+            Math.floor(sectionProgress * (projects.length + 1))
+          )
+          
+          if (newActiveIndex !== activeCardIndex) {
+            setActiveCardIndex(newActiveIndex)
+            console.log('Active card index:', newActiveIndex, 'Progress:', sectionProgress.toFixed(2))
+          }
+        }
       }
     }
 
@@ -91,30 +103,41 @@ export function ProjectsSection() {
     handleScroll()
 
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [activeCardIndex])
 
-  const getCardTransform = (index: number) => {
-    // Start stacked, then spread out as we scroll
-    const maxSpread = 120 // Maximum distance between cards when fully spread
-    const stackOffset = 8 // Initial tight stacking
+  const getCardStyle = (index: number) => {
+    const isActive = index <= activeCardIndex
+    const isNext = index === activeCardIndex + 1
+    const isPast = index < activeCardIndex
     
-    // Calculate current offset based on scroll progress
-    const currentSpread = stackOffset + (maxSpread - stackOffset) * scrollProgress
-    const yPosition = index * currentSpread
+    let transform = ''
+    let opacity = 0.3
+    let zIndex = projects.length - index
     
-    // Scale effect - cards get slightly smaller when stacked
-    const scale = 0.95 + (0.05 * scrollProgress)
-    
-    // Opacity effect
-    const opacity = 0.6 + (0.4 * Math.min(1, scrollProgress + 0.3))
-    
-    console.log(`Card ${index}: yPos=${yPosition.toFixed(1)}, scale=${scale.toFixed(2)}, opacity=${opacity.toFixed(2)}`)
+    if (isPast) {
+      // Cards that have been scrolled past - move up and fade
+      transform = `translateY(-${(activeCardIndex - index) * 30}px) scale(0.95)`
+      opacity = 0.5
+    } else if (isActive) {
+      // Current active card - center position
+      transform = 'translateY(0px) scale(1)'
+      opacity = 1
+      zIndex = projects.length + 1
+    } else if (isNext) {
+      // Next card - slightly visible below
+      transform = 'translateY(20px) scale(0.98)'
+      opacity = 0.7
+    } else {
+      // Future cards - stacked below
+      transform = `translateY(${40 + (index - activeCardIndex - 1) * 10}px) scale(0.96)`
+      opacity = 0.3
+    }
     
     return {
-      transform: `translateY(${yPosition}px) scale(${scale})`,
-      opacity: opacity,
-      zIndex: projects.length - index,
-      transition: scrollProgress === 0 ? 'none' : 'all 0.2s ease-out',
+      transform,
+      opacity,
+      zIndex,
+      transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
     }
   }
 
@@ -136,14 +159,15 @@ export function ProjectsSection() {
             <div className="sticky top-32 h-screen flex items-center justify-center">
               <div className="relative w-full max-w-4xl">
                 {projects.map((project, index) => {
-                  const cardStyle = getCardTransform(index)
+                  const cardStyle = getCardStyle(index)
                   
                   return (
                     <Card 
                       key={project.title}
+                      ref={(el) => (cardRefs.current[index] = el)}
                       className={`absolute left-0 right-0 glass border-border-elevated hover:glow group cursor-pointer ${
                         project.featured ? 'border-primary/30' : ''
-                      }`}
+                      } ${index <= activeCardIndex ? 'pointer-events-auto' : 'pointer-events-none'}`}
                       style={cardStyle}
                     >
                   <div className="flex flex-col md:flex-row h-full">
