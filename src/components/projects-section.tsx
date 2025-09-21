@@ -117,11 +117,11 @@ export function ProjectsSection() {
                         </div>
                       </div>
 
-                      <div className="md:w-1/2 flex flex-col p-6 h-full overflow-y-auto">
+                      <div className="md:w-1/2 flex flex-col p-4 h-full">
                         <CardHeader>
                           <div className="flex items-start justify-between">
                             <div>
-                              <CardTitle className="text-xl font-semibold text-text-primary group-hover:gradient-text transition-all duration-300">
+                              <CardTitle className="text-lg font-semibold text-text-primary group-hover:gradient-text transition-all duration-300 md:text-xl">
                                 {project.title}
                                 {project.featured && (
                                   <Badge variant="secondary" className="ml-2 bg-primary/20 text-primary">
@@ -129,34 +129,34 @@ export function ProjectsSection() {
                                   </Badge>
                                 )}
                               </CardTitle>
-                              <CardDescription className="text-text-secondary mt-2">
+                              <CardDescription className="text-text-secondary mt-1 text-sm md:mt-2">
                                 {project.description}
                               </CardDescription>
                             </div>
                           </div>
                         </CardHeader>
 
-                        <CardContent>
-                          <div className="flex flex-wrap gap-2 mb-6">
+                        <CardContent className="flex flex-col flex-grow">
+                          <div className="flex flex-wrap gap-1 mb-4 md:gap-2 md:mb-6">
                             {project.technologies.map((tech) => (
                               <Badge
                                 key={tech}
                                 variant="outline"
-                                className="border-border-elevated hover:scale-105 transition-transform duration-200"
+                                className="border-border-elevated hover:scale-105 transition-transform duration-200 text-xs"
                               >
                                 {tech}
                               </Badge>
                             ))}
                           </div>
 
-                          <div className="flex gap-3">
+                          <div className="flex gap-2 mt-auto">
                             <Button
                               size="sm"
-                              className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                              className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs"
                               asChild
                             >
                               <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="mr-2 h-4 w-4" />
+                                <ExternalLink className="mr-1 h-3 w-3 md:mr-2 md:h-4 md:w-4" />
                                 Live Demo
                               </a>
                             </Button>
@@ -164,11 +164,11 @@ export function ProjectsSection() {
                             <Button
                               variant="outline"
                               size="sm"
-                              className="glass border-border-elevated hover:bg-surface-elevated"
+                              className="glass border-border-elevated hover:bg-surface-elevated text-xs"
                               asChild
                             >
                               <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                                <Github className="mr-2 h-4 w-4" />
+                                <Github className="mr-1 h-3 w-3 md:mr-2 md:h-4 md:w-4" />
                                 Code
                               </a>
                             </Button>
