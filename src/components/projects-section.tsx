@@ -59,9 +59,8 @@ export function ProjectsSection() {
     title: string
   } | null>(null)
 
-  const [scrollY, setScrollY] = useState(0)
+  const [scrollProgress, setScrollProgress] = useState(0)
   const sectionRef = useRef<HTMLElement>(null)
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
 
   const openPreview = (src: string, alt: string, title: string) => {
     setPreviewImage({ src, alt, title })
@@ -75,13 +74,19 @@ export function ProjectsSection() {
     const handleScroll = () => {
       if (sectionRef.current) {
         const rect = sectionRef.current.getBoundingClientRect()
-        const viewportHeight = window.innerHeight
+        const windowHeight = window.innerHeight
         
-        // Calculate scroll progress based on section position
-        const progress = Math.max(0, Math.min(1, 
-          (viewportHeight - rect.top) / (viewportHeight + rect.height * 0.5)
-        ))
-        setScrollY(progress)
+        // Start animation when section is 30% in view, complete when 70% through
+        const startOffset = windowHeight * 0.3
+        const endOffset = windowHeight * 0.7
+        
+        let progress = 0
+        if (rect.top < startOffset) {
+          progress = Math.min(1, (startOffset - rect.top) / (rect.height + endOffset))
+        }
+        
+        setScrollProgress(progress)
+        console.log('Scroll progress:', progress, 'Section top:', rect.top)
       }
     }
 
@@ -91,31 +96,33 @@ export function ProjectsSection() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Get transform for each card based on scroll and index
-  const getCardStyle = (index: number) => {
-    const totalCards = projects.length
-    const cardProgress = Math.max(0, Math.min(1, scrollY * totalCards - index))
+  const getCardTransform = (index: number) => {
+    // Each card activates at different scroll points
+    const cardDelay = index * 0.2
+    const cardProgress = Math.max(0, Math.min(1, (scrollProgress - cardDelay) / 0.6))
     
-    // Initial stacked position
-    const initialY = index * 24
-    const initialScale = 1 - (index * 0.02)
-    const initialRotate = index * 1
+    // Initial stacked state
+    const stackOffset = index * 16
+    const initialScale = 1 - index * 0.02
+    const initialOpacity = index === 0 ? 1 : 0.6
     
-    // Final position (spread out)
-    const finalY = index * 120
+    // Final expanded state  
+    const finalOffset = index * 80
     const finalScale = 1
-    const finalRotate = 0
+    const finalOpacity = 1
     
-    // Interpolation
-    const currentY = initialY + (finalY - initialY) * cardProgress
+    // Smooth interpolation
+    const currentOffset = stackOffset + (finalOffset - stackOffset) * cardProgress
     const currentScale = initialScale + (finalScale - initialScale) * cardProgress
-    const currentRotate = initialRotate + (finalRotate - initialRotate) * cardProgress
-    const opacity = 0.7 + (0.3 * cardProgress)
+    const currentOpacity = initialOpacity + (finalOpacity - initialOpacity) * cardProgress
+    
+    console.log(`Card ${index}:`, { cardProgress, currentOffset, currentScale })
     
     return {
-      transform: `translateY(${currentY}px) scale(${currentScale}) rotate(${currentRotate}deg)`,
-      opacity,
-      zIndex: totalCards - index,
+      transform: `translateY(${currentOffset}px) scale(${currentScale})`,
+      opacity: currentOpacity,
+      zIndex: projects.length - index,
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
     }
   }
 
@@ -137,13 +144,12 @@ export function ProjectsSection() {
             <div className="sticky top-32 h-screen flex items-center justify-center">
               <div className="relative w-full max-w-4xl">
                 {projects.map((project, index) => {
-                  const cardStyle = getCardStyle(index)
+                  const cardStyle = getCardTransform(index)
                   
                   return (
                     <Card 
                       key={project.title}
-                      ref={(el) => (cardRefs.current[index] = el)}
-                      className={`absolute inset-0 glass border-border-elevated hover:glow transition-all duration-300 group cursor-pointer ${
+                      className={`absolute left-0 right-0 glass border-border-elevated hover:glow group cursor-pointer ${
                         project.featured ? 'border-primary/30' : ''
                       }`}
                       style={cardStyle}
