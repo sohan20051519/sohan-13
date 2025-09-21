@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button"
 import { ImagePreviewModal } from "@/components/image-preview-modal"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { useState, useRef } from "react"
-import Autoplay from "embla-carousel-autoplay"
-import useEmblaCarousel from "embla-carousel-react"
+import { useIsMobile } from "@/hooks/use-is-mobile"
+import AutoScroll from "embla-carousel-auto-scroll"
 
 // Certificate images
 import googleCloudCert from "@/assets/certificates/google-cloud-agentic-ai.png"
@@ -75,9 +75,6 @@ const categoryColors = {
   "AI/Cloud": "bg-purple-500/10 text-purple-400 border-purple-500/20",
   "Programming": "bg-orange-500/10 text-orange-400 border-orange-500/20"
 }
-
-import { useIsMobile } from "@/hooks/use-is-mobile"
-import AutoScroll from "embla-carousel-auto-scroll"
 
 export function CertificatesSection() {
   const [selectedCertificate, setSelectedCertificate] = useState<{
