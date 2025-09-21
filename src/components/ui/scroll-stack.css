@@ -60,6 +60,7 @@
 
   .scroll-stack-card {
     height: auto;
+    max-height: 80vh;
     padding: 1.5rem;
     width: 90vw;
   }

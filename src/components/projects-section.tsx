@@ -95,7 +95,7 @@ export function ProjectsSection() {
               {projects.map((project, index) => (
                 <ScrollStackItem key={index}>
                   <Card
-                    className="glass border-border-elevated hover:glow group cursor-pointer scroll-stack-card"
+                    className="glass border-border-elevated hover:glow group cursor-pointer scroll-stack-card overflow-hidden"
                   >
                     <div className="flex flex-col md:flex-row h-full">
                       <div className="relative group/image md:w-1/2">
@@ -117,7 +117,7 @@ export function ProjectsSection() {
                         </div>
                       </div>
 
-                      <div className="md:w-1/2 flex flex-col p-6">
+                      <div className="md:w-1/2 flex flex-col p-6 h-full overflow-y-auto">
                         <CardHeader>
                           <div className="flex items-start justify-between">
                             <div>
