@@ -75,18 +75,15 @@ export function ProjectsSection() {
       if (sectionRef.current) {
         const rect = sectionRef.current.getBoundingClientRect()
         const windowHeight = window.innerHeight
+        const sectionHeight = rect.height
         
-        // Start animation when section is 30% in view, complete when 70% through
-        const startOffset = windowHeight * 0.3
-        const endOffset = windowHeight * 0.7
-        
-        let progress = 0
-        if (rect.top < startOffset) {
-          progress = Math.min(1, (startOffset - rect.top) / (rect.height + endOffset))
-        }
+        // Calculate how much of the section has been scrolled through
+        const scrolled = Math.max(0, windowHeight - rect.top)
+        const totalScrollDistance = windowHeight + sectionHeight
+        const progress = Math.min(1, scrolled / totalScrollDistance)
         
         setScrollProgress(progress)
-        console.log('Scroll progress:', progress, 'Section top:', rect.top)
+        console.log('Scroll progress:', progress.toFixed(2), 'Rect top:', rect.top)
       }
     }
 
@@ -97,32 +94,27 @@ export function ProjectsSection() {
   }, [])
 
   const getCardTransform = (index: number) => {
-    // Each card activates at different scroll points
-    const cardDelay = index * 0.2
-    const cardProgress = Math.max(0, Math.min(1, (scrollProgress - cardDelay) / 0.6))
+    // Start stacked, then spread out as we scroll
+    const maxSpread = 120 // Maximum distance between cards when fully spread
+    const stackOffset = 8 // Initial tight stacking
     
-    // Initial stacked state
-    const stackOffset = index * 16
-    const initialScale = 1 - index * 0.02
-    const initialOpacity = index === 0 ? 1 : 0.6
+    // Calculate current offset based on scroll progress
+    const currentSpread = stackOffset + (maxSpread - stackOffset) * scrollProgress
+    const yPosition = index * currentSpread
     
-    // Final expanded state  
-    const finalOffset = index * 80
-    const finalScale = 1
-    const finalOpacity = 1
+    // Scale effect - cards get slightly smaller when stacked
+    const scale = 0.95 + (0.05 * scrollProgress)
     
-    // Smooth interpolation
-    const currentOffset = stackOffset + (finalOffset - stackOffset) * cardProgress
-    const currentScale = initialScale + (finalScale - initialScale) * cardProgress
-    const currentOpacity = initialOpacity + (finalOpacity - initialOpacity) * cardProgress
+    // Opacity effect
+    const opacity = 0.6 + (0.4 * Math.min(1, scrollProgress + 0.3))
     
-    console.log(`Card ${index}:`, { cardProgress, currentOffset, currentScale })
+    console.log(`Card ${index}: yPos=${yPosition.toFixed(1)}, scale=${scale.toFixed(2)}, opacity=${opacity.toFixed(2)}`)
     
     return {
-      transform: `translateY(${currentOffset}px) scale(${currentScale})`,
-      opacity: currentOpacity,
+      transform: `translateY(${yPosition}px) scale(${scale})`,
+      opacity: opacity,
       zIndex: projects.length - index,
-      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      transition: scrollProgress === 0 ? 'none' : 'all 0.2s ease-out',
     }
   }
 
