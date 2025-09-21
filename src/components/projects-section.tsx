@@ -118,7 +118,7 @@ export function ProjectsSection() {
                       </div>
 
                       <div className="md:w-1/2 flex flex-col p-4 h-full">
-                        <CardHeader>
+                        <CardHeader className="p-4">
                           <div className="flex items-start justify-between">
                             <div>
                               <CardTitle className="text-lg font-semibold text-text-primary group-hover:gradient-text transition-all duration-300 md:text-xl">
