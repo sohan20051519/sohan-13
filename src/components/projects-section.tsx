@@ -117,32 +117,28 @@ export function ProjectsSection() {
                         </div>
                       </div>
 
-                      <div className="md:w-1/2 flex flex-col p-4 h-full">
-                        <CardHeader className="p-4">
-                          <div className="flex items-start justify-between">
-                            <div>
-                              <CardTitle className="text-lg font-semibold text-text-primary group-hover:gradient-text transition-all duration-300 md:text-xl">
-                                {project.title}
-                                {project.featured && (
-                                  <Badge variant="secondary" className="ml-2 bg-primary/20 text-primary">
-                                    Featured
-                                  </Badge>
-                                )}
-                              </CardTitle>
-                              <CardDescription className="text-text-secondary mt-1 text-sm md:mt-2">
-                                {project.description}
-                              </CardDescription>
-                            </div>
-                          </div>
+                      <div className="md:w-1/2 flex flex-col h-full p-4 md:p-6">
+                        <CardHeader className="p-0">
+                          <CardTitle className="text-base font-semibold text-text-primary group-hover:gradient-text transition-all duration-300 md:text-xl">
+                            {project.title}
+                            {project.featured && (
+                              <Badge variant="secondary" className="ml-2 bg-primary/20 text-primary text-xs">
+                                Featured
+                              </Badge>
+                            )}
+                          </CardTitle>
+                          <CardDescription className="text-xs text-text-secondary mt-1 md:text-sm md:mt-2">
+                            {project.description}
+                          </CardDescription>
                         </CardHeader>
 
-                        <CardContent className="flex flex-col flex-grow">
-                          <div className="flex flex-wrap gap-1 mb-4 md:gap-2 md:mb-6">
+                        <CardContent className="p-0 flex flex-col flex-grow mt-4">
+                          <div className="flex flex-wrap gap-1 mb-3 md:gap-2 md:mb-4">
                             {project.technologies.map((tech) => (
                               <Badge
                                 key={tech}
                                 variant="outline"
-                                className="border-border-elevated hover:scale-105 transition-transform duration-200 text-xs"
+                                className="border-border-elevated hover:scale-105 transition-transform duration-200 text-xs px-1.5 py-0.5"
                               >
                                 {tech}
                               </Badge>
@@ -152,11 +148,11 @@ export function ProjectsSection() {
                           <div className="flex gap-2 mt-auto">
                             <Button
                               size="sm"
-                              className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs"
+                              className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs h-8"
                               asChild
                             >
                               <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="mr-1 h-3 w-3 md:mr-2 md:h-4 md:w-4" />
+                                <ExternalLink className="mr-1 h-3 w-3" />
                                 Live Demo
                               </a>
                             </Button>
@@ -164,11 +160,11 @@ export function ProjectsSection() {
                             <Button
                               variant="outline"
                               size="sm"
-                              className="glass border-border-elevated hover:bg-surface-elevated text-xs"
+                              className="glass border-border-elevated hover:bg-surface-elevated text-xs h-8"
                               asChild
                             >
                               <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                                <Github className="mr-1 h-3 w-3 md:mr-2 md:h-4 md:w-4" />
+                                <Github className="mr-1 h-3 w-3" />
                                 Code
                               </a>
                             </Button>
