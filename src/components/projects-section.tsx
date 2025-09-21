@@ -59,7 +59,7 @@ export function ProjectsSection() {
     title: string
   } | null>(null)
 
-  const [scrollProgress, setScrollProgress] = useState(0)
+  const [scrollY, setScrollY] = useState(0)
   const sectionRef = useRef<HTMLElement>(null)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
 
@@ -76,37 +76,46 @@ export function ProjectsSection() {
       if (sectionRef.current) {
         const rect = sectionRef.current.getBoundingClientRect()
         const viewportHeight = window.innerHeight
-        const sectionHeight = rect.height
         
-        // Calculate scroll progress for the entire section
-        const startTrigger = rect.top + viewportHeight * 0.3
-        const endTrigger = rect.bottom - viewportHeight * 0.7
+        // Calculate scroll progress based on section position
         const progress = Math.max(0, Math.min(1, 
-          (viewportHeight * 0.7 - rect.top) / (sectionHeight + viewportHeight * 0.4)
+          (viewportHeight - rect.top) / (viewportHeight + rect.height * 0.5)
         ))
-        
-        setScrollProgress(progress)
+        setScrollY(progress)
       }
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll() // Initial call
+    handleScroll()
 
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Calculate individual card transforms based on scroll progress
-  const getCardTransform = (index: number) => {
-    const cardProgress = Math.max(0, Math.min(1, scrollProgress * projects.length - index))
-    const stackOffset = index * 20
-    const scaleValue = 1 - (index * 0.05) + (cardProgress * 0.05)
-    const yOffset = stackOffset - (cardProgress * stackOffset)
-    const opacity = cardProgress > 0 ? 1 : 0.7
+  // Get transform for each card based on scroll and index
+  const getCardStyle = (index: number) => {
+    const totalCards = projects.length
+    const cardProgress = Math.max(0, Math.min(1, scrollY * totalCards - index))
+    
+    // Initial stacked position
+    const initialY = index * 24
+    const initialScale = 1 - (index * 0.02)
+    const initialRotate = index * 1
+    
+    // Final position (spread out)
+    const finalY = index * 120
+    const finalScale = 1
+    const finalRotate = 0
+    
+    // Interpolation
+    const currentY = initialY + (finalY - initialY) * cardProgress
+    const currentScale = initialScale + (finalScale - initialScale) * cardProgress
+    const currentRotate = initialRotate + (finalRotate - initialRotate) * cardProgress
+    const opacity = 0.7 + (0.3 * cardProgress)
     
     return {
-      transform: `translateY(${yOffset}px) scale(${scaleValue})`,
+      transform: `translateY(${currentY}px) scale(${currentScale}) rotate(${currentRotate}deg)`,
       opacity,
-      zIndex: projects.length - index,
+      zIndex: totalCards - index,
     }
   }
 
@@ -124,26 +133,21 @@ export function ProjectsSection() {
           </div>
           
           {/* Scroll-Triggered Stacked Cards */}
-          <div className="relative min-h-[200vh]">
-            <div className="sticky top-20 space-y-4">
-              {projects.map((project, index) => {
-                const cardStyle = getCardTransform(index)
-                
-                return (
-                  <Card 
-                    key={project.title}
-                    ref={(el) => (cardRefs.current[index] = el)}
-                    className={`glass border-border-elevated hover:glow transition-all duration-500 group cursor-pointer relative ${
-                      project.featured ? 'border-primary/30' : ''
-                    }`}
-                    style={{
-                      ...cardStyle,
-                      position: index === 0 ? 'relative' : 'absolute',
-                      top: index === 0 ? 0 : '0px',
-                      left: 0,
-                      right: 0,
-                    }}
-                  >
+          <div className="relative" style={{ height: '150vh' }}>
+            <div className="sticky top-32 h-screen flex items-center justify-center">
+              <div className="relative w-full max-w-4xl">
+                {projects.map((project, index) => {
+                  const cardStyle = getCardStyle(index)
+                  
+                  return (
+                    <Card 
+                      key={project.title}
+                      ref={(el) => (cardRefs.current[index] = el)}
+                      className={`absolute inset-0 glass border-border-elevated hover:glow transition-all duration-300 group cursor-pointer ${
+                        project.featured ? 'border-primary/30' : ''
+                      }`}
+                      style={cardStyle}
+                    >
                   <div className="flex flex-col md:flex-row h-full">
                     <div className="relative group/image md:w-1/2">
                       <img
@@ -225,7 +229,8 @@ export function ProjectsSection() {
                   </div>
                 </Card>
                 )
-              })}
+               })}
+              </div>
             </div>
           </div>
           
