@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ExternalLink, Github, Eye } from "lucide-react"
 import { ImagePreviewModal } from "@/components/image-preview-modal"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { useState, useEffect, useRef } from "react"
+import { useState } from "react"
+import ScrollStack, { ScrollStackItem } from "./ui/scroll-stack"
 
 // Import project images
 import projectSohanUIUX from "@/assets/project-sohan-uiux.png"
@@ -59,10 +59,6 @@ export function ProjectsSection() {
     title: string
   } | null>(null)
 
-  const [activeCardIndex, setActiveCardIndex] = useState(0)
-  const sectionRef = useRef<HTMLElement>(null)
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
-
   const openPreview = (src: string, alt: string, title: string) => {
     setPreviewImage({ src, alt, title })
   }
@@ -71,78 +67,8 @@ export function ProjectsSection() {
     setPreviewImage(null)
   }
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (sectionRef.current) {
-        const rect = sectionRef.current.getBoundingClientRect()
-        const windowHeight = window.innerHeight
-        const sectionHeight = rect.height
-
-        // Calculate which card should be active based on scroll position
-        if (rect.top <= windowHeight * 0.5 && rect.bottom >= windowHeight * 0.5) {
-          // Section is in view, calculate progress through section
-          const sectionProgress = Math.max(0, Math.min(1,
-            (windowHeight * 0.5 - rect.top) / (sectionHeight - windowHeight * 0.5)
-          ))
-
-          // Determine active card index based on progress
-          const newActiveIndex = Math.min(
-            projects.length - 1,
-            Math.floor(sectionProgress * (projects.length + 1))
-          )
-
-          if (newActiveIndex !== activeCardIndex) {
-            setActiveCardIndex(newActiveIndex)
-            console.log('Active card index:', newActiveIndex, 'Progress:', sectionProgress.toFixed(2))
-          }
-        }
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
-
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [activeCardIndex])
-
-  const getCardStyle = (index: number) => {
-    const isActive = index <= activeCardIndex
-    const isNext = index === activeCardIndex + 1
-    const isPast = index < activeCardIndex
-
-    let transform = ''
-    let opacity = 0.3
-    let zIndex = projects.length - index
-
-    if (isPast) {
-      // Cards that have been scrolled past - move up and fade
-      transform = `translateY(-${(activeCardIndex - index) * 30}px) scale(0.95)`
-      opacity = 0.5
-    } else if (isActive) {
-      // Current active card - center position
-      transform = 'translateY(0px) scale(1)'
-      opacity = 1
-      zIndex = projects.length + 1
-    } else if (isNext) {
-      // Next card - slightly visible below
-      transform = 'translateY(20px) scale(0.98)'
-      opacity = 0.7
-    } else {
-      // Future cards - stacked below
-      transform = `translateY(${40 + (index - activeCardIndex - 1) * 10}px) scale(0.96)`
-      opacity = 0.3
-    }
-
-    return {
-      transform,
-      opacity,
-      zIndex,
-      transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-    }
-  }
-
   return (
-    <section ref={sectionRef} id="projects" className="py-20 relative overflow-hidden">
+    <section id="projects" className="py-20 relative overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -153,112 +79,112 @@ export function ProjectsSection() {
               A collection of projects showcasing full-stack development, AI integration, and modern web technologies
             </p>
           </div>
-          
-          {/* Scroll-Triggered Stacked Cards */}
-          <div className="relative" style={{ height: '150vh' }}>
-            <div className="sticky top-32 h-screen flex items-center justify-center">
-              <div className="relative w-full max-w-4xl">
-                {projects.map((project, index) => {
-                  const cardStyle = getCardStyle(index)
 
-                  return (
-                    <Card 
-                      key={project.title}
-                      ref={(el) => (cardRefs.current[index] = el)}
-                      className={`absolute left-0 right-0 glass border-border-elevated hover:glow group cursor-pointer ${
-                        project.featured ? 'border-primary/30' : ''
-                      } ${index <= activeCardIndex ? 'pointer-events-auto' : 'pointer-events-none'}`}
-                      style={cardStyle}
-                    >
-                  <div className="flex flex-col md:flex-row h-full">
-                    <div className="relative group/image md:w-1/2">
-                      <img
-                        src={project.image}
-                        alt={`${project.title} preview`}
-                        className="w-full h-48 md:h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-tr-none cursor-pointer transition-all duration-300 group-hover/image:scale-105"
-                        onClick={() => openPreview(project.image, `${project.title} preview`, project.title)}
-                      />
-                      <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-all duration-300 rounded-t-lg md:rounded-l-lg md:rounded-tr-none flex items-center justify-center">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="opacity-0 group-hover/image:opacity-100 transition-all duration-300 text-white hover:text-white glass"
+          <div className="w-full max-w-4xl mx-auto">
+            <ScrollStack
+              useWindowScroll
+              itemDistance={40}
+              itemScale={0.02}
+              itemStackDistance={15}
+              stackPosition="15%"
+              scaleEndPosition="5%"
+              baseScale={0.9}
+              blurAmount={2}
+              rotationAmount={5}
+            >
+              {projects.map((project, index) => (
+                <ScrollStackItem key={index}>
+                  <Card
+                    className="glass border-border-elevated hover:glow group cursor-pointer scroll-stack-card"
+                  >
+                    <div className="flex flex-col md:flex-row h-full">
+                      <div className="relative group/image md:w-1/2">
+                        <img
+                          src={project.image}
+                          alt={`${project.title} preview`}
+                          className="w-full h-48 md:h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-tr-none cursor-pointer transition-all duration-300 group-hover/image:scale-105"
                           onClick={() => openPreview(project.image, `${project.title} preview`, project.title)}
-                        >
-                          <Eye className="h-5 w-5" />
-                        </Button>
+                        />
+                        <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-all duration-300 rounded-t-lg md:rounded-l-lg md:rounded-tr-none flex items-center justify-center">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="opacity-0 group-hover/image:opacity-100 transition-all duration-300 text-white hover:text-white glass"
+                            onClick={() => openPreview(project.image, `${project.title} preview`, project.title)}
+                          >
+                            <Eye className="h-5 w-5" />
+                          </Button>
+                        </div>
+                      </div>
+
+                      <div className="md:w-1/2 flex flex-col">
+                        <CardHeader className="flex-1">
+                          <div className="flex items-start justify-between">
+                            <div>
+                              <CardTitle className="text-xl font-semibold text-text-primary group-hover:gradient-text transition-all duration-300">
+                                {project.title}
+                                {project.featured && (
+                                  <Badge variant="secondary" className="ml-2 bg-primary/20 text-primary">
+                                    Featured
+                                  </Badge>
+                                )}
+                              </CardTitle>
+                              <CardDescription className="text-text-secondary mt-2">
+                                {project.description}
+                              </CardDescription>
+                            </div>
+                          </div>
+                        </CardHeader>
+
+                        <CardContent className="mt-auto">
+                          <div className="flex flex-wrap gap-2 mb-6">
+                            {project.technologies.map((tech) => (
+                              <Badge
+                                key={tech}
+                                variant="outline"
+                                className="border-border-elevated hover:scale-105 transition-transform duration-200"
+                              >
+                                {tech}
+                              </Badge>
+                            ))}
+                          </div>
+
+                          <div className="flex gap-3">
+                            <Button
+                              size="sm"
+                              className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                              asChild
+                            >
+                              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                                <ExternalLink className="mr-2 h-4 w-4" />
+                                Live Demo
+                              </a>
+                            </Button>
+
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="glass border-border-elevated hover:bg-surface-elevated"
+                              asChild
+                            >
+                              <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                                <Github className="mr-2 h-4 w-4" />
+                                Code
+                              </a>
+                            </Button>
+                          </div>
+                        </CardContent>
                       </div>
                     </div>
-
-                    <div className="md:w-1/2 flex flex-col">
-                      <CardHeader className="flex-1">
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <CardTitle className="text-xl font-semibold text-text-primary group-hover:gradient-text transition-all duration-300">
-                              {project.title}
-                              {project.featured && (
-                                <Badge variant="secondary" className="ml-2 bg-primary/20 text-primary">
-                                  Featured
-                                </Badge>
-                              )}
-                            </CardTitle>
-                            <CardDescription className="text-text-secondary mt-2">
-                              {project.description}
-                            </CardDescription>
-                          </div>
-                        </div>
-                      </CardHeader>
-
-                      <CardContent className="mt-auto">
-                        <div className="flex flex-wrap gap-2 mb-6">
-                          {project.technologies.map((tech) => (
-                            <Badge
-                              key={tech}
-                              variant="outline"
-                              className="border-border-elevated hover:scale-105 transition-transform duration-200"
-                            >
-                              {tech}
-                            </Badge>
-                          ))}
-                        </div>
-
-                        <div className="flex gap-3">
-                          <Button
-                            size="sm"
-                            className="bg-primary hover:bg-primary/90 text-primary-foreground"
-                            asChild
-                          >
-                            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="mr-2 h-4 w-4" />
-                              Live Demo
-                            </a>
-                          </Button>
-                          
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="glass border-border-elevated hover:bg-surface-elevated"
-                            asChild
-                          >
-                            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                              <Github className="mr-2 h-4 w-4" />
-                              Code
-                            </a>
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </div>
-                  </div>
-                </Card>
-                )
-               })}
-              </div>
-            </div>
+                  </Card>
+                </ScrollStackItem>
+              ))}
+            </ScrollStack>
           </div>
-          
+
           <div className="text-center mt-12">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="lg"
               className="glass border-border-elevated hover:bg-surface-elevated px-8"
               asChild
