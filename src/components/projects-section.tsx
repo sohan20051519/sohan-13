@@ -82,17 +82,17 @@ export function ProjectsSection() {
 
           <ScrollStack
             className="w-full max-w-4xl mx-auto"
-            itemDistance={120}
-            itemScale={0.05}
-            itemStackDistance={30}
-            stackPosition="20%"
-            scaleEndPosition="10%"
-            baseScale={0.85}
+            itemDistance={200}
+            itemScale={0.1}
+            itemStackDistance={40}
+            stackPosition="30%"
+            scaleEndPosition="15%"
+            baseScale={0.8}
             useWindowScroll={true}
           >
             {projects.map((project, index) => (
               <ScrollStackItem key={index} itemClassName="scroll-stack-card">
-                <Card className="glass border-border-elevated hover:glow group cursor-pointer overflow-hidden transition-all duration-300 hover:scale-105 h-full">
+                <Card className="glass border-border-elevated hover:glow group cursor-pointer overflow-hidden transition-all duration-300 h-full">
                   <div className="flex flex-col md:flex-row h-full">
                     <div className="relative group/image md:w-1/2">
                       <img
