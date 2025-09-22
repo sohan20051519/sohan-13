@@ -80,98 +80,94 @@ export function ProjectsSection() {
             </p>
           </div>
 
-          <ScrollStack
-            className="w-full max-w-4xl mx-auto"
-            itemDistance={200}
-            itemScale={0.05}
-            itemStackDistance={40}
-            stackPosition="25%"
-            scaleEndPosition="15%"
-            baseScale={0.85}
-            useWindowScroll={true}
-          >
+          <div className="w-full max-w-4xl mx-auto space-y-8">
             {projects.map((project, index) => (
-              <ScrollStackItem key={index} itemClassName="scroll-stack-card">
-                <Card className="glass border-border-elevated hover:glow group cursor-pointer overflow-hidden transition-all duration-300 h-full">
-                  <div className="flex flex-col md:flex-row h-full">
-                    <div className="relative group/image md:w-1/2">
-                      <img
-                        src={project.image}
-                        alt={`${project.title} preview`}
-                        className="w-full h-48 md:h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-tr-none cursor-pointer transition-all duration-300 group-hover/image:scale-105"
+              <Card
+                key={index}
+                className="glass border-border-elevated hover:glow group cursor-pointer overflow-hidden transition-all duration-500 hover:scale-105"
+                style={{
+                  animationDelay: `${index * 200}ms`,
+                  animation: 'fade-in 0.6s ease-out forwards'
+                }}
+              >
+                <div className="flex flex-col md:flex-row h-full">
+                  <div className="relative group/image md:w-1/2">
+                    <img
+                      src={project.image}
+                      alt={`${project.title} preview`}
+                      className="w-full h-48 md:h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-tr-none cursor-pointer transition-all duration-300 group-hover/image:scale-105"
+                      onClick={() => openPreview(project.image, `${project.title} preview`, project.title)}
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-all duration-300 rounded-t-lg md:rounded-l-lg md:rounded-tr-none flex items-center justify-center">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="opacity-0 group-hover/image:opacity-100 transition-all duration-300 text-white hover:text-white glass"
                         onClick={() => openPreview(project.image, `${project.title} preview`, project.title)}
-                      />
-                      <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-all duration-300 rounded-t-lg md:rounded-l-lg md:rounded-tr-none flex items-center justify-center">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="opacity-0 group-hover/image:opacity-100 transition-all duration-300 text-white hover:text-white glass"
-                          onClick={() => openPreview(project.image, `${project.title} preview`, project.title)}
-                        >
-                          <Eye className="h-5 w-5" />
-                        </Button>
-                      </div>
-                    </div>
-
-                    <div className="md:w-1/2 flex flex-col h-full p-4 md:p-6">
-                      <CardHeader className="p-0">
-                        <CardTitle className="text-base font-semibold text-text-primary group-hover:gradient-text transition-all duration-300 md:text-xl">
-                          {project.title}
-                          {project.featured && (
-                            <Badge variant="secondary" className="ml-2 bg-primary/20 text-primary text-xs">
-                              Featured
-                            </Badge>
-                          )}
-                        </CardTitle>
-                        <CardDescription className="text-xs text-text-secondary mt-1 md:text-sm md:mt-2">
-                          {project.description}
-                        </CardDescription>
-                      </CardHeader>
-
-                      <CardContent className="p-0 flex flex-col flex-grow mt-4">
-                        <div className="flex flex-wrap gap-1 mb-3 md:gap-2 md:mb-4">
-                          {project.technologies.map((tech) => (
-                            <Badge
-                              key={tech}
-                              variant="outline"
-                              className="border-border-elevated hover:scale-105 transition-transform duration-200 text-xs px-1.5 py-0.5"
-                            >
-                              {tech}
-                            </Badge>
-                          ))}
-                        </div>
-
-                        <div className="flex gap-2 mt-auto">
-                          <Button
-                            size="sm"
-                            className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs h-8"
-                            asChild
-                          >
-                            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="mr-1 h-3 w-3" />
-                              Live Demo
-                            </a>
-                          </Button>
-
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="glass border-border-elevated hover:bg-surface-elevated text-xs h-8"
-                            asChild
-                          >
-                            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                              <Github className="mr-1 h-3 w-3" />
-                              Code
-                            </a>
-                          </Button>
-                        </div>
-                      </CardContent>
+                      >
+                        <Eye className="h-5 w-5" />
+                      </Button>
                     </div>
                   </div>
-                </Card>
-              </ScrollStackItem>
+
+                  <div className="md:w-1/2 flex flex-col h-full p-4 md:p-6">
+                    <CardHeader className="p-0">
+                      <CardTitle className="text-base font-semibold text-text-primary group-hover:gradient-text transition-all duration-300 md:text-xl">
+                        {project.title}
+                        {project.featured && (
+                          <Badge variant="secondary" className="ml-2 bg-primary/20 text-primary text-xs">
+                            Featured
+                          </Badge>
+                        )}
+                      </CardTitle>
+                      <CardDescription className="text-xs text-text-secondary mt-1 md:text-sm md:mt-2">
+                        {project.description}
+                      </CardDescription>
+                    </CardHeader>
+
+                    <CardContent className="p-0 flex flex-col flex-grow mt-4">
+                      <div className="flex flex-wrap gap-1 mb-3 md:gap-2 md:mb-4">
+                        {project.technologies.map((tech) => (
+                          <Badge
+                            key={tech}
+                            variant="outline"
+                            className="border-border-elevated hover:scale-105 transition-transform duration-200 text-xs px-1.5 py-0.5"
+                          >
+                            {tech}
+                          </Badge>
+                        ))}
+                      </div>
+
+                      <div className="flex gap-2 mt-auto">
+                        <Button
+                          size="sm"
+                          className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs h-8"
+                          asChild
+                        >
+                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="mr-1 h-3 w-3" />
+                            Live Demo
+                          </a>
+                        </Button>
+
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="glass border-border-elevated hover:bg-surface-elevated text-xs h-8"
+                          asChild
+                        >
+                          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                            <Github className="mr-1 h-3 w-3" />
+                            Code
+                          </a>
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </div>
+                </div>
+              </Card>
             ))}
-          </ScrollStack>
+          </div>
 
           <div className="text-center mt-12">
             <Button
