@@ -2,11 +2,27 @@ import { useLayoutEffect, useRef, useCallback } from 'react';
 import Lenis from 'lenis';
 import './scroll-stack.css';
 
-export const ScrollStackItem = ({ children, itemClassName = '' }) => (
+export const ScrollStackItem = ({ children, itemClassName = '' }: { children: React.ReactNode; itemClassName?: string }) => (
   <div className={`scroll-stack-card-wrapper ${itemClassName}`}>
     {children}
   </div>
 );
+
+interface ScrollStackProps {
+  children: React.ReactNode;
+  className?: string;
+  itemDistance?: number;
+  itemScale?: number;
+  itemStackDistance?: number;
+  stackPosition?: string;
+  scaleEndPosition?: string;
+  baseScale?: number;
+  scaleDuration?: number;
+  rotationAmount?: number;
+  blurAmount?: number;
+  useWindowScroll?: boolean;
+  onStackComplete?: () => void;
+}
 
 const ScrollStack = ({
   children,
@@ -22,7 +38,7 @@ const ScrollStack = ({
   blurAmount = 0,
   useWindowScroll = false,
   onStackComplete
-}) => {
+}: ScrollStackProps) => {
   const scrollerRef = useRef(null);
   const stackCompletedRef = useRef(false);
   const animationFrameRef = useRef(null);
@@ -221,14 +237,14 @@ const ScrollStack = ({
         smoothWheel: true,
         touchMultiplier: 2,
         infinite: false,
-        gestureOrientationHandler: true,
-        normalizeWheel: true,
+        gestureOrientation: 'vertical',
+        
         wheelMultiplier: 1,
-        touchInertiaMultiplier: 35,
+        
         lerp: 0.1,
         syncTouch: true,
         syncTouchLerp: 0.075,
-        touchInertia: 0.6
+        
       });
 
       lenis.on('scroll', handleScroll);
@@ -252,7 +268,7 @@ const ScrollStack = ({
       useWindowScroll
         ? document.querySelectorAll('.scroll-stack-card')
         : scroller.querySelectorAll('.scroll-stack-card')
-    );
+    ) as HTMLElement[];
 
     cardsRef.current = cards;
     const transformsCache = lastTransformsRef.current;
