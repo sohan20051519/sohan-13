@@ -80,25 +80,16 @@ export function ProjectsSection() {
             </p>
           </div>
 
-          <div className="w-full max-w-4xl mx-auto">
-            <ScrollStack
-              itemDistance={-20}
-              itemScale={0.05}
-              itemStackDistance={20}
-              baseScale={0.8}
-              rotationAmount={0}
-              blurAmount={0}
-              useWindowScroll={true}
-            >
-              {projects.map((project, index) => (
-                <ScrollStackItem key={index}>
-                  <Card
-                    className="glass border-border-elevated hover:glow group cursor-pointer overflow-hidden transition-all duration-500 hover:scale-105 scroll-stack-card"
-                    style={{
-                      animationDelay: `${index * 200}ms`,
-                      animation: 'fade-in 0.6s ease-out forwards'
-                    }}
-                  >
+          <div className="w-full max-w-4xl mx-auto space-y-8">
+            {projects.map((project, index) => (
+              <Card
+                key={index}
+                className="glass border-border-elevated hover:glow group cursor-pointer overflow-hidden transition-all duration-500 hover:scale-105"
+                style={{
+                  animationDelay: `${index * 200}ms`,
+                  animation: 'fade-in 0.6s ease-out forwards'
+                }}
+              >
                 <div className="flex flex-col md:flex-row h-full">
                   <div className="relative group/image md:w-1/2">
                     <img
@@ -174,10 +165,8 @@ export function ProjectsSection() {
                     </CardContent>
                   </div>
                 </div>
-                  </Card>
-                </ScrollStackItem>
-              ))}
-            </ScrollStack>
+              </Card>
+            ))}
           </div>
 
           <div className="text-center mt-12">
