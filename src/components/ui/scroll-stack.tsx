@@ -98,14 +98,6 @@ const ScrollStack = ({
     const stackPositionPx = parsePercentage(stackPosition, containerHeight);
     const scaleEndPositionPx = parsePercentage(scaleEndPosition, containerHeight);
 
-    console.log('Scroll Debug:', {
-      scrollTop,
-      containerHeight,
-      stackPositionPx,
-      scaleEndPositionPx,
-      cardsCount: cardsRef.current.length
-    });
-
     const endElement = useWindowScroll
       ? document.querySelector('.scroll-stack-end')
       : scrollerRef.current?.querySelector('.scroll-stack-end');
@@ -125,15 +117,6 @@ const ScrollStack = ({
       const targetScale = baseScale + i * itemScale;
       const scale = 1 - scaleProgress * (1 - targetScale);
       const rotation = rotationAmount ? i * rotationAmount * scaleProgress : 0;
-
-      console.log(`Card ${i}:`, {
-        cardTop,
-        triggerStart,
-        triggerEnd,
-        scaleProgress,
-        scale,
-        scrollTop
-      });
 
       let blur = 0;
       if (blurAmount) {
@@ -182,9 +165,6 @@ const ScrollStack = ({
 
         card.style.transform = transform;
         card.style.filter = filter;
-        card.style.zIndex = String(1000 - i); // Ensure proper stacking order
-
-        console.log(`Applied transform to card ${i}:`, transform);
 
         lastTransformsRef.current.set(i, newTransform);
       }
@@ -258,13 +238,10 @@ const ScrollStack = ({
         touchMultiplier: 2,
         infinite: false,
         gestureOrientation: 'vertical',
-        
         wheelMultiplier: 1,
-        
         lerp: 0.1,
         syncTouch: true,
-        syncTouchLerp: 0.075,
-        
+        syncTouchLerp: 0.075
       });
 
       lenis.on('scroll', handleScroll);
