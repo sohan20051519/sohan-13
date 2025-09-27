@@ -82,11 +82,14 @@ export function ProjectsSection() {
 
           <ScrollStack
             useWindowScroll
-            itemDistance={100}
-            itemScale={0.03}
-            baseScale={0.85}
-            rotationAmount={5}
-            blurAmount={1}
+            itemDistance={120}
+            itemScale={0.04}
+            itemStackDistance={40}
+            baseScale={0.88}
+            rotationAmount={3}
+            blurAmount={0.8}
+            stackPosition="25%"
+            scaleEndPosition="15%"
             className="-mx-4"
           >
             {projects.map((project, index) => (
