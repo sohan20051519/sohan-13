@@ -10,6 +10,11 @@
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
   will-change: scroll-position;
+  /* Improve scrolling performance */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
 }
 
 .scroll-stack-scroller::-webkit-scrollbar {
@@ -42,10 +47,16 @@
   padding: 3rem;
   border-radius: 40px;
   box-sizing: border-box;
-  /* Improve mobile performance */
+  /* Improve performance and smoothness */
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
   position: relative;
+  /* Optimize for GPU acceleration */
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+  /* Smooth transitions */
+  transition: transform 0.1s ease-out, filter 0.1s ease-out;
 }
 
 .scroll-stack-end {
