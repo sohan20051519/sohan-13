@@ -144,13 +144,23 @@ const ProfileCardComponent = ({
 
       if (!card || !wrap || !animationHandlers) return;
 
-      animationHandlers.createSmoothAnimation(
-        ANIMATION_CONFIG.SMOOTH_DURATION,
-        event.offsetX,
-        event.offsetY,
-        card,
-        wrap
-      );
+      // In muted mode, avoid post-leave animation jitter; snap to centered, stable state
+      if ((wrap as HTMLElement).classList.contains('pc-muted')) {
+        const styleTarget = wrap as HTMLElement;
+        styleTarget.style.setProperty('--pointer-x', '50%');
+        styleTarget.style.setProperty('--pointer-y', '50%');
+        styleTarget.style.setProperty('--background-x', '50%');
+        styleTarget.style.setProperty('--background-y', '50%');
+        styleTarget.style.setProperty('--pointer-from-center', '0');
+      } else {
+        animationHandlers.createSmoothAnimation(
+          ANIMATION_CONFIG.SMOOTH_DURATION,
+          event.offsetX,
+          event.offsetY,
+          card,
+          wrap
+        );
+      }
       wrap.classList.remove('active');
       card.classList.remove('active');
     },
