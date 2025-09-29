@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Github, Linkedin, Mail, ExternalLink, Download } from "lucide-react"
 import DotGrid from "./DotGrid"
+import ProfileCard from "./ProfileCard"
  
 
 export function HeroSection() {
@@ -25,9 +26,10 @@ export function HeroSection() {
           />
         </div>
 
-        {/* Centered hero copy */}
+        {/* Left text + Right profile card */}
         <div className="container mx-auto px-4 relative z-20">
-          <div className="max-w-3xl text-left">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div className="max-w-3xl text-left">
             <Badge variant="secondary" className="mb-6 px-4 py-2 text-sm font-medium">
               Available for Opportunities
             </Badge>
@@ -66,9 +68,7 @@ export function HeroSection() {
                   Download Resume
                 </a>
               </Button>
-            </div>
-
-            <div className="flex justify-start gap-6 animate-fade-in-up [animation-delay:0.4s] opacity-0">
+              <div className="flex justify-start gap-6 animate-fade-in-up [animation-delay:0.4s] opacity-0">
               <a 
                 href="https://github.com/sohan20051519" 
                 target="_blank" 
@@ -91,6 +91,22 @@ export function HeroSection() {
               >
                 <Mail className="h-6 w-6" />
               </a>
+              </div>
+            </div>
+
+            <div className="w-full flex justify-center lg:justify-end">
+              <ProfileCard
+                name="Javi A. Torres"
+                title="Software Engineer"
+                handle="javicodes"
+                status="Online"
+                contactText="Contact Me"
+                avatarUrl="/path/to/avatar.jpg"
+                showUserInfo={true}
+                enableTilt={true}
+                enableMobileTilt={false}
+                onContactClick={() => console.log('Contact clicked')}
+              />
             </div>
           </div>
         </div>
