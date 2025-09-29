@@ -109,7 +109,7 @@ export function HeroSection() {
                   className="pc-muted"
                   showBehindGradient={false}
                   innerGradient="linear-gradient(145deg,#0f172a 0%, #1f2a44 100%)"
-                  enableTilt={true}
+                  enableTilt={false}
                   enableMobileTilt={false}
                   onContactClick={() => console.log('Contact clicked')}
                 />
