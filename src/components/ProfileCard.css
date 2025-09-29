@@ -54,7 +54,7 @@
 
 /* Reduce dynamic transforms and heavy blur in muted mode to prevent flicker */
 .pc-card-wrapper.pc-muted .pc-content {
-  transform: none !important;
+  transform: translate3d(0,0,0.01px);
   mix-blend-mode: normal;
 }
 .pc-card-wrapper.pc-muted .pc-avatar-content::before {

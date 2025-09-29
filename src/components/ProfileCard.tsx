@@ -250,7 +250,9 @@ const ProfileCardComponent = ({
       '--icon': iconUrl ? `url(${iconUrl})` : 'none',
       '--grain': grainUrl ? `url(${grainUrl})` : 'none',
       '--behind-gradient': showBehindGradient ? (behindGradient ?? DEFAULT_BEHIND_GRADIENT) : 'none',
-      '--inner-gradient': innerGradient ?? DEFAULT_INNER_GRADIENT
+      '--inner-gradient': innerGradient ?? DEFAULT_INNER_GRADIENT,
+      '--pointer-x': '50%',
+      '--pointer-y': '45%'
     }),
     [iconUrl, grainUrl, showBehindGradient, behindGradient, innerGradient]
   );
