@@ -205,9 +205,10 @@ const ProfileCardComponent = ({
       }
     };
 
-    card.addEventListener('pointerenter', pointerEnterHandler);
-    card.addEventListener('pointermove', pointerMoveHandler);
-    card.addEventListener('pointerleave', pointerLeaveHandler);
+    // Use passive pointermove to reduce jank and avoid continuous style thrash
+    card.addEventListener('pointerenter', pointerEnterHandler, { passive: true } as any);
+    card.addEventListener('pointermove', pointerMoveHandler, { passive: true } as any);
+    card.addEventListener('pointerleave', pointerLeaveHandler, { passive: true } as any);
     card.addEventListener('click', handleClick);
 
     const initialX = wrap.clientWidth - ANIMATION_CONFIG.INITIAL_X_OFFSET;

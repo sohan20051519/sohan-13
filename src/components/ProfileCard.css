@@ -47,6 +47,19 @@
   mix-blend-mode: normal;
 }
 
+/* Reduce dynamic transforms and heavy blur in muted mode to prevent flicker */
+.pc-card-wrapper.pc-muted .pc-content {
+  transform: none !important;
+  mix-blend-mode: normal;
+}
+.pc-card-wrapper.pc-muted .pc-avatar-content::before {
+  backdrop-filter: blur(8px);
+}
+.pc-card-wrapper.pc-muted .pc-avatar-content .avatar {
+  transform: translateX(-50%) scale(0.85);
+  bottom: 10px;
+}
+
 .pc-card-wrapper::before {
   content: '';
   position: absolute;
