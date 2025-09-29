@@ -56,8 +56,8 @@
   backdrop-filter: blur(8px);
 }
 .pc-card-wrapper.pc-muted .pc-avatar-content .avatar {
-  transform: translate(-50%, 6%) scale(0.82);
-  bottom: 0;
+  transform: translate(-50%, 0%) scale(0.8);
+  bottom: 10px;
 }
 
 /* Lower the heading area a bit so it doesn't overlap the face */
