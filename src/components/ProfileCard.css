@@ -35,6 +35,18 @@
   touch-action: none;
 }
 
+/* Muted mode: remove glow layers and use normal blending to match reference */
+.pc-card-wrapper.pc-muted::before {
+  display: none;
+}
+.pc-card-wrapper.pc-muted .pc-shine,
+.pc-card-wrapper.pc-muted .pc-glare {
+  display: none;
+}
+.pc-card-wrapper.pc-muted .pc-avatar-content {
+  mix-blend-mode: normal;
+}
+
 .pc-card-wrapper::before {
   content: '';
   position: absolute;

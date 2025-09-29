@@ -106,6 +106,9 @@ export function HeroSection() {
                   contactText="Contact Me"
                   avatarUrl="https://iili.io/KGCHJdQ.png"
                   showUserInfo={true}
+                  className="pc-muted"
+                  showBehindGradient={false}
+                  innerGradient="linear-gradient(145deg,#0f172a 0%, #1f2a44 100%)"
                   enableTilt={true}
                   enableMobileTilt={false}
                   onContactClick={() => console.log('Contact clicked')}
