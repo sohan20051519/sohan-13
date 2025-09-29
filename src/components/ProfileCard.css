@@ -56,8 +56,8 @@
   backdrop-filter: blur(8px);
 }
 .pc-card-wrapper.pc-muted .pc-avatar-content .avatar {
-  transform: translate(-50%, -4%) scale(0.82);
-  bottom: 0;
+  transform: translate(-50%, 12%) scale(0.82);
+  bottom: -8px;
 }
 
 .pc-card-wrapper::before {
