@@ -58,14 +58,14 @@
   backdrop-filter: blur(8px);
 }
 .pc-card-wrapper.pc-muted .pc-avatar-content .avatar {
-  transform: translate(-50%, 0%) scale(0.76);
-  bottom: 18px;
+  transform: translate(-50%, 8%) scale(0.76);
+  bottom: 8px;
   object-position: top center;
 }
 
 /* Lower the heading area a bit so it doesn't overlap the face */
 .pc-card-wrapper.pc-muted .pc-details {
-  top: 4.4em;
+  top: 5.4em;
 }
 
 .pc-card-wrapper::before {
