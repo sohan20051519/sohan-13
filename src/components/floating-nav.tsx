@@ -44,7 +44,8 @@ export function FloatingNav() {
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href)
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
+      // Use instant jump to avoid clashing with Lenis or other smooth scroll
+      element.scrollIntoView({ behavior: "instant", block: 'start' } as ScrollIntoViewOptions)
     }
   }
 

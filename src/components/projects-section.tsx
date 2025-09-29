@@ -68,7 +68,7 @@ export function ProjectsSection() {
   }
 
   return (
-    <section id="projects" className="py-20 relative overflow-hidden">
+    <section id="projects" className="pt-24 lg:pt-32 pb-40 relative overflow-visible scroll-mt-24 md:scroll-mt-32">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -80,18 +80,19 @@ export function ProjectsSection() {
             </p>
           </div>
 
-          <ScrollStack
-            useWindowScroll
-            itemDistance={120}
-            itemScale={0.04}
-            itemStackDistance={40}
-            baseScale={0.88}
-            rotationAmount={3}
-            blurAmount={0.8}
-            stackPosition="25%"
-            scaleEndPosition="15%"
-            className="-mx-4"
-          >
+          <div className="-mt-[10vh]">
+            <ScrollStack
+              useWindowScroll
+              itemDistance={120}
+              itemScale={0.04}
+              itemStackDistance={40}
+              baseScale={0.88}
+              rotationAmount={0}
+              blurAmount={0.8}
+              stackPosition="18%"
+              scaleEndPosition="10%"
+              className="-mx-4"
+            >
             {projects.map((project, index) => (
               <ScrollStackItem key={index} itemClassName="scroll-stack-card">
                 <Card className="glass border-border-elevated group cursor-pointer overflow-hidden">
@@ -173,7 +174,8 @@ export function ProjectsSection() {
                 </Card>
               </ScrollStackItem>
             ))}
-          </ScrollStack>
+            </ScrollStack>
+          </div>
 
           <div className="text-center mt-12">
             <Button
