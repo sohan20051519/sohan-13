@@ -48,6 +48,9 @@
   overflow: hidden;
   clip-path: inset(0 round var(--card-radius));
 }
+.pc-card-wrapper.pc-muted .pc-card {
+  box-shadow: none;
+}
 
 /* Reduce dynamic transforms and heavy blur in muted mode to prevent flicker */
 .pc-card-wrapper.pc-muted .pc-content {
@@ -58,8 +61,8 @@
   backdrop-filter: blur(8px);
 }
 .pc-card-wrapper.pc-muted .pc-avatar-content .avatar {
-  transform: translate(-50%, 8%) scale(0.76);
-  bottom: 8px;
+  transform: translate(-50%, 4%) scale(0.74);
+  bottom: 14px;
   object-position: top center;
 }
 
@@ -302,7 +305,7 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  backdrop-filter: blur(30px);
+  backdrop-filter: blur(18px);
   mask: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0) 0%,
@@ -315,7 +318,7 @@
 
 .pc-user-info {
   position: absolute;
-  bottom: 20px;
+  bottom: 28px;
   left: 20px;
   right: 20px;
   z-index: 2;
