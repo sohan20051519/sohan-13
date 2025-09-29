@@ -97,6 +97,7 @@ export function HeroSection() {
             </div>
 
             <div className="w-full flex justify-center lg:justify-end">
+              <div className="w-[360px] sm:w-[400px] md:w-[420px] lg:w-[440px] rounded-[30px] p-3 border border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.22)] bg-transparent">
               <ProfileCard
                 name="Javi A. Torres"
                 title="Software Engineer"
@@ -109,6 +110,7 @@ export function HeroSection() {
                 enableMobileTilt={false}
                 onContactClick={() => console.log('Contact clicked')}
               />
+              </div>
             </div>
           </div>
         </div>
