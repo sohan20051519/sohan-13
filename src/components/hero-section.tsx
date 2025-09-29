@@ -53,7 +53,10 @@ export function HeroSection() {
                   <ExternalLink className="ml-2 h-4 w-4" />
                 </a>
               </Button>
-              
+
+            </div>
+
+            <div className="flex justify-start gap-6 animate-fade-in-up [animation-delay:0.4s] opacity-0">
               <Button 
                 variant="outline" 
                 size="lg" 
@@ -68,7 +71,6 @@ export function HeroSection() {
                   Download Resume
                 </a>
               </Button>
-              <div className="flex justify-start gap-6 animate-fade-in-up [animation-delay:0.4s] opacity-0">
               <a 
                 href="https://github.com/sohan20051519" 
                 target="_blank" 
@@ -91,7 +93,7 @@ export function HeroSection() {
               >
                 <Mail className="h-6 w-6" />
               </a>
-              </div>
+            </div>
             </div>
 
             <div className="w-full flex justify-center lg:justify-end">
