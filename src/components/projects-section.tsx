@@ -131,7 +131,7 @@ export function ProjectsSection() {
             >
             {projects.map((project, index) => (
               <ScrollStackItem key={index} itemClassName="scroll-stack-card">
-                <Card className="glass border-border-elevated group cursor-pointer overflow-hidden transform-gpu [will-change:transform] motion-reduce:transform-none">
+                <Card className="glass border-border-elevated group cursor-pointer overflow-hidden transform-gpu [will-change:transform] motion-reduce:transform-none pointer-events-none">
                 <div className="flex flex-col md:flex-row h-full">
                   <div className="relative z-10 group/image md:w-1/2 pointer-events-none">
                     <img
