@@ -213,7 +213,7 @@ export function ProjectsSection() {
             </ScrollStack>
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-12 relative z-20">
             <Button
               variant="outline"
               size="lg"
