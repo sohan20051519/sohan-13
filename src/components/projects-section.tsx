@@ -121,10 +121,10 @@ export function ProjectsSection() {
               useWindowScroll
               itemDistance={100}
               itemScale={0.02}
-              itemStackDistance={80}
+              itemStackDistance={30}
               baseScale={0.92}
               rotationAmount={0}
-              blurAmount={0.4}
+              blurAmount={0.6}
               stackPosition="15%"
               scaleEndPosition="8%"
               className="-mx-4"
