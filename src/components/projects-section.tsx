@@ -15,15 +15,6 @@ import projectOneOps from "@/assets/project-oneops.png"
 
 const projects = [
   {
-    title: "sohan.app",
-    description: "Personal portfolio website showcasing technical skills and certifications with modern design and responsive layout.",
-    technologies: ["React", "TypeScript", "Tailwind CSS", "Responsive Design"],
-    liveUrl: "https://sohan.app",
-    githubUrl: "#",
-    featured: true,
-    image: projectSohanUIUX
-  },
-  {
     title: "MATRIX 2K25",
     description: "AI-driven event management platform featuring full-stack architecture, real-time updates, and interactive user experience.",
     technologies: ["Full-Stack", "AI Integration", "Real-time Updates", "Event Management"],
@@ -38,8 +29,35 @@ const projects = [
     technologies: ["AI/ML", "Backend APIs", "Conversational AI", "NLP"],
     liveUrl: "https://nammai.live",
     githubUrl: "#",
-    featured: false,
+    featured: true,
     image: projectNammai
+  },
+  {
+    title: "AI Resume Builder",
+    description: "Intelligent resume creation platform powered by AI that helps users build professional resumes with automated formatting, content suggestions, and industry-specific templates.",
+    technologies: ["AI/ML", "React", "TypeScript", "Natural Language Processing", "PDF Generation"],
+    liveUrl: "#",
+    githubUrl: "#",
+    featured: true,
+    image: "https://iili.io/KG1KP6B.md.png"
+  },
+  {
+    title: "Fake Debit & Credit Card Generator",
+    description: "Secure testing tool for developers that generates realistic-looking fake debit and credit card numbers for testing payment systems and e-commerce applications.",
+    technologies: ["JavaScript", "Card Validation", "Testing Tools", "Security", "Payment Systems"],
+    liveUrl: "#",
+    githubUrl: "#",
+    featured: true,
+    image: "https://iili.io/KG1qP71.md.png"
+  },
+  {
+    title: "sohan.app",
+    description: "Personal portfolio website showcasing technical skills and certifications with modern design and responsive layout.",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Responsive Design"],
+    liveUrl: "https://sohan.app",
+    githubUrl: "#",
+    featured: true,
+    image: projectSohanUIUX
   },
   {
     title: "OneOps DevOps Platform",
@@ -49,6 +67,24 @@ const projects = [
     githubUrl: "#",
     featured: true,
     image: projectOneOps
+  },
+  {
+    title: "Sohan Web",
+    description: "Modern web development project featuring responsive design, interactive components, and clean UI/UX with advanced frontend technologies and seamless user experience.",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Vercel", "Responsive Design"],
+    liveUrl: "https://sohan-web.vercel.app",
+    githubUrl: "#",
+    featured: true,
+    image: "https://i.ibb.co/XZGrp4hw/sohan-web-vercel-app.png"
+  },
+  {
+    title: "Portfolio Website",
+    description: "Professional portfolio website showcasing projects, skills, and experience with modern design, responsive layout, and interactive components.",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Responsive Design", "UI/UX"],
+    liveUrl: "#",
+    githubUrl: "#",
+    featured: true,
+    image: "https://iili.io/KG1B1v1.md.png"
   }
 ]
 
@@ -83,14 +119,14 @@ export function ProjectsSection() {
           <div className="-mt-[10vh]">
             <ScrollStack
               useWindowScroll
-              itemDistance={120}
-              itemScale={0.04}
-              itemStackDistance={40}
-              baseScale={0.88}
+              itemDistance={100}
+              itemScale={0.02}
+              itemStackDistance={30}
+              baseScale={0.92}
               rotationAmount={0}
-              blurAmount={0.8}
-              stackPosition="18%"
-              scaleEndPosition="10%"
+              blurAmount={0.6}
+              stackPosition="15%"
+              scaleEndPosition="8%"
               className="-mx-4"
             >
             {projects.map((project, index) => (
