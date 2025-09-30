@@ -182,8 +182,8 @@ const ScrollStack = ({
         smoothWheel: isFinePointer,
         touchMultiplier: 1.5,
         infinite: false,
-        wheelMultiplier: 0.9,
-        lerp: prefersReduced ? 0.05 : 0.08,
+        wheelMultiplier: 0.7,
+        lerp: prefersReduced ? 0.04 : 0.06,
         syncTouch: false
       });
 
@@ -215,9 +215,9 @@ const ScrollStack = ({
         infinite: false,
         gestureOrientationHandler: true,
         normalizeWheel: true,
-        wheelMultiplier: 0.9,
+        wheelMultiplier: 0.7,
         touchInertiaMultiplier: 28,
-        lerp: prefersReduced ? 0.05 : 0.08,
+        lerp: prefersReduced ? 0.04 : 0.06,
         syncTouch: false,
         touchInertia: 0.55
       });
@@ -267,6 +267,18 @@ const ScrollStack = ({
 
     setupLenis();
 
+    // Recalculate cached offsets on resize/orientation to avoid jitter
+    const handleResize = () => {
+      lastTransformsRef.current.clear();
+      const cards = cardsRef.current;
+      cards.forEach((card: any) => {
+        card._cachedOffset = null;
+      });
+      updateCardTransforms();
+    };
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
+
     updateCardTransforms();
 
     return () => {
@@ -276,6 +288,8 @@ const ScrollStack = ({
       if (lenisRef.current) {
         lenisRef.current.destroy();
       }
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
       stackCompletedRef.current = false;
       cardsRef.current = [];
       transformsCache.clear();
