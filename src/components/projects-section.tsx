@@ -36,7 +36,7 @@ const projects = [
     title: "AI Resume Builder",
     description: "Intelligent resume creation platform powered by AI that helps users build professional resumes with automated formatting, content suggestions, and industry-specific templates.",
     technologies: ["AI/ML", "React", "TypeScript", "Natural Language Processing", "PDF Generation"],
-    liveUrl: "#",
+    liveUrl: "https://resumecv-test.vercel.app/",
     githubUrl: "https://github.com/sohan20051519/resume",
     featured: true,
     image: "https://iili.io/KG1KP6B.md.png"
@@ -45,7 +45,7 @@ const projects = [
     title: "Fake Debit & Credit Card Generator",
     description: "Secure testing tool for developers that generates realistic-looking fake debit and credit card numbers for testing payment systems and e-commerce applications.",
     technologies: ["JavaScript", "Card Validation", "Testing Tools", "Security", "Payment Systems"],
-    liveUrl: "#",
+    liveUrl: "https://generatecards.vercel.app/",
     githubUrl: "https://github.com/sohan20051519/card-generator",
     featured: true,
     image: "https://iili.io/KG1qP71.md.png"
