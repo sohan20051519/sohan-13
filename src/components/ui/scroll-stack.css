@@ -60,7 +60,7 @@
 
 .scroll-stack-end {
   width: 100%;
-  height: 1px;
+  height: 60vh;
 }
 
 @media (max-width: 768px) {
@@ -73,5 +73,9 @@
     max-height: 80vh;
     padding: 1.5rem;
     width: 90vw;
+  }
+
+  .scroll-stack-end {
+    height: 40vh;
   }
 }
