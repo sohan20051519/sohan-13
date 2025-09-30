@@ -116,12 +116,12 @@ export function ProjectsSection() {
             </p>
           </div>
 
-          <div className="-mt-[10vh] pointer-events-none">
+          <div className="-mt-[8vh] relative z-10">
             <ScrollStack
               useWindowScroll
-              itemDistance={100}
+              itemDistance={80}
               itemScale={0.02}
-              itemStackDistance={80}
+              itemStackDistance={45}
               baseScale={0.92}
               rotationAmount={0}
               blurAmount={0.4}
@@ -131,20 +131,20 @@ export function ProjectsSection() {
             >
             {projects.map((project, index) => (
               <ScrollStackItem key={index} itemClassName="scroll-stack-card">
-                <Card className="glass border-border-elevated group cursor-pointer overflow-hidden">
+                <Card className="glass border-border-elevated group cursor-pointer overflow-hidden transform-gpu">
                 <div className="flex flex-col md:flex-row h-full">
                   <div className="relative group/image md:w-1/2">
                     <img
                       src={project.image}
                       alt={`${project.title} preview`}
-                      className="w-full h-48 md:h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-tr-none cursor-pointer transition-all duration-300 group-hover/image:scale-105"
+                      className="w-full h-48 md:h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-tr-none cursor-pointer transition-all duration-300 group-hover/image:scale-105 transform-gpu"
                       onClick={() => openPreview(project.image, `${project.title} preview`, project.title)}
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-all duration-300 rounded-t-lg md:rounded-l-lg md:rounded-tr-none flex items-center justify-center">
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="opacity-0 group-hover/image:opacity-100 transition-all duration-300 text-white hover:text-white glass pointer-events-auto"
+                        className="opacity-0 group-hover/image:opacity-100 transition-all duration-300 text-white hover:text-white glass"
                         onClick={() => openPreview(project.image, `${project.title} preview`, project.title)}
                       >
                         <Eye className="h-5 w-5" />
@@ -183,7 +183,7 @@ export function ProjectsSection() {
                       <div className="flex gap-2 mt-auto">
                         <Button
                           size="sm"
-                          className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs h-8 pointer-events-auto"
+                          className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs h-8"
                           asChild
                         >
                           <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
@@ -195,7 +195,7 @@ export function ProjectsSection() {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="glass border-border-elevated hover:bg-surface-elevated text-xs h-8 pointer-events-auto"
+                          className="glass border-border-elevated hover:bg-surface-elevated text-xs h-8"
                           asChild
                         >
                           <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
@@ -213,7 +213,7 @@ export function ProjectsSection() {
             </ScrollStack>
           </div>
 
-          <div className="text-center mt-12 relative z-20">
+          <div className="text-center mt-12 relative z-40">
             <Button
               variant="outline"
               size="lg"
