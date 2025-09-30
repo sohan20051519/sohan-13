@@ -116,7 +116,7 @@ export function ProjectsSection() {
             </p>
           </div>
 
-          <div className="-mt-[10vh]">
+          <div className="-mt-[10vh] pointer-events-none">
             <ScrollStack
               useWindowScroll
               itemDistance={100}
@@ -144,7 +144,7 @@ export function ProjectsSection() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="opacity-0 group-hover/image:opacity-100 transition-all duration-300 text-white hover:text-white glass"
+                        className="opacity-0 group-hover/image:opacity-100 transition-all duration-300 text-white hover:text-white glass pointer-events-auto"
                         onClick={() => openPreview(project.image, `${project.title} preview`, project.title)}
                       >
                         <Eye className="h-5 w-5" />
@@ -183,7 +183,7 @@ export function ProjectsSection() {
                       <div className="flex gap-2 mt-auto">
                         <Button
                           size="sm"
-                          className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs h-8"
+                          className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs h-8 pointer-events-auto"
                           asChild
                         >
                           <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
@@ -195,7 +195,7 @@ export function ProjectsSection() {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="glass border-border-elevated hover:bg-surface-elevated text-xs h-8"
+                          className="glass border-border-elevated hover:bg-surface-elevated text-xs h-8 pointer-events-auto"
                           asChild
                         >
                           <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
