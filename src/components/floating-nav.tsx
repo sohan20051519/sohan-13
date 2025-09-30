@@ -28,7 +28,9 @@ export function FloatingNav() {
         const element = document.getElementById(section)
         if (element) {
           const rect = element.getBoundingClientRect()
-          if (rect.top <= 100 && rect.bottom >= 100) {
+          // Better mobile detection for active section
+          const threshold = window.innerWidth < 1024 ? 150 : 100
+          if (rect.top <= threshold && rect.bottom >= threshold) {
             current = section
             break
           }
@@ -44,8 +46,29 @@ export function FloatingNav() {
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href)
     if (element) {
-      // Use instant jump to avoid clashing with Lenis or other smooth scroll
-      element.scrollIntoView({ behavior: "instant", block: 'start' } as ScrollIntoViewOptions)
+      // Check if we're on mobile
+      const isMobile = window.innerWidth < 1024
+      
+      if (isMobile) {
+        // Mobile: Use native smooth scroll with better positioning
+        element.scrollIntoView({ 
+          behavior: "smooth", 
+          block: 'start',
+          inline: 'nearest'
+        })
+      } else {
+        // Desktop: Use Lenis for smooth scrolling if available
+        const lenisInstance = (window as any).lenis
+        if (lenisInstance) {
+          lenisInstance.scrollTo(element, { 
+            duration: 1.2,
+            easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+          })
+        } else {
+          // Fallback to native scrollIntoView
+          element.scrollIntoView({ behavior: "smooth", block: 'start' })
+        }
+      }
     }
   }
 
@@ -55,7 +78,7 @@ export function FloatingNav() {
         isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
       }`}
     >
-      <div className="glass rounded-full px-4 py-2 flex items-center gap-2 shadow-lg border-border-elevated">
+      <div className="glass rounded-full px-2 sm:px-4 py-2 flex items-center gap-1 sm:gap-2 shadow-lg border-border-elevated touch-manipulation">
         {navItems.map((item) => {
           const Icon = item.icon
           const isActive = activeSection === item.href.substring(1)
@@ -66,11 +89,15 @@ export function FloatingNav() {
               variant="ghost"
               size="sm"
               onClick={() => scrollToSection(item.href)}
-              className={`transition-all duration-300 rounded-full ${
+              className={`transition-all duration-300 rounded-full touch-manipulation ${
                 isActive 
                   ? "bg-primary/20 text-primary" 
                   : "hover:bg-primary/10 text-text-secondary hover:text-primary"
               }`}
+              style={{ 
+                minHeight: '44px', // Better touch target for mobile
+                minWidth: '44px'
+              }}
             >
               <Icon className="h-4 w-4" />
               <span className="ml-2 hidden sm:inline">{item.name}</span>

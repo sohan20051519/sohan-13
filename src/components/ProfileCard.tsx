@@ -221,11 +221,11 @@ const ProfileCardComponent = ({
     card.addEventListener('pointerleave', pointerLeaveHandler, { passive: true } as any);
     card.addEventListener('click', handleClick);
 
-    const initialX = wrap.clientWidth - ANIMATION_CONFIG.INITIAL_X_OFFSET;
-    const initialY = ANIMATION_CONFIG.INITIAL_Y_OFFSET;
+    // Start with centered position (no initial tilt)
+    const initialX = wrap.clientWidth / 2;
+    const initialY = wrap.clientHeight / 2;
 
     animationHandlers.updateCardTransform(initialX, initialY, card, wrap);
-    animationHandlers.createSmoothAnimation(ANIMATION_CONFIG.INITIAL_DURATION, initialX, initialY, card, wrap);
 
     return () => {
       card.removeEventListener('pointerenter', pointerEnterHandler);

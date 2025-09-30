@@ -219,6 +219,8 @@ const ScrollStack = ({
       animationFrameRef.current = requestAnimationFrame(raf);
 
       lenisRef.current = lenis;
+      // Expose Lenis instance globally for navigation
+      (window as any).lenis = lenis;
       return lenis;
     } else {
       const scroller = scrollerRef.current;
@@ -252,6 +254,8 @@ const ScrollStack = ({
       animationFrameRef.current = requestAnimationFrame(raf);
 
       lenisRef.current = lenis;
+      // Expose Lenis instance globally for navigation
+      (window as any).lenis = lenis;
       return lenis;
     }
   }, [handleScroll, useWindowScroll]);

@@ -35,12 +35,6 @@ const socialLinks = [
     label: "LinkedIn", 
     href: "https://linkedin.com/in/sohan2005",
     username: "sohan2005"
-  },
-  {
-    icon: ExternalLink,
-    label: "Portfolio",
-    href: "https://sohan.app",
-    username: "sohan.app"
   }
 ]
 

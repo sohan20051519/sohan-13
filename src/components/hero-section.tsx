@@ -6,6 +6,23 @@ import ProfileCard from "./ProfileCard"
  
 
 export function HeroSection() {
+  const scrollToSection = (href: string) => {
+    const element = document.querySelector(href)
+    if (element) {
+      // Use Lenis for smooth scrolling if available
+      const lenisInstance = (window as any).lenis
+      if (lenisInstance) {
+        lenisInstance.scrollTo(element, { 
+          duration: 1.2,
+          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+        })
+      } else {
+        // Fallback to native scrollIntoView
+        element.scrollIntoView({ behavior: "smooth", block: 'start' })
+      }
+    }
+  }
+
   return (
     <>
       {/* HERO with DotGrid background */}
@@ -26,10 +43,10 @@ export function HeroSection() {
           />
         </div>
 
-        {/* Left text + Right profile card */}
+        {/* Content with responsive layout */}
         <div className="container mx-auto px-4 relative z-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            <div className="max-w-3xl text-left">
+            <div className="max-w-3xl text-center lg:text-left">
             <Badge variant="secondary" className="mb-6 px-4 py-2 text-sm font-medium">
               Available for Opportunities
             </Badge>
@@ -38,20 +55,39 @@ export function HeroSection() {
               <span className="gradient-text">Sohan A</span>
             </h1>
 
+            {/* Profile Card - Mobile only (between name and title) */}
+            <div className="flex justify-center mb-8 lg:hidden">
+              <div className="w-[300px] sm:w-[350px]">
+                <ProfileCard
+                  name="Sohan A"
+                  title="Full-Stack Developer"
+                  handle="sohan2005"
+                  status="Online"
+                  contactText="Contact Me"
+                  avatarUrl="https://iili.io/KGCHJdQ.png"
+                  showUserInfo={true}
+                  className="pc-muted"
+                  showBehindGradient={false}
+                  innerGradient="linear-gradient(145deg,#0f172a 0%, #1f2a44 100%)"
+                  enableTilt={true}
+                  enableMobileTilt={false}
+                  onContactClick={() => window.open('https://linkedin.com/in/sohan2005', '_blank', 'noopener,noreferrer')}
+                />
+              </div>
+            </div>
+
             <p className="text-xl sm:text-2xl text-text-secondary mb-8 animate-fade-in-up [animation-delay:0.2s] opacity-0">
               Full Stack Developer & DevOps Engineer
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-start items-start sm:items-center mb-12 animate-fade-in-up [animation-delay:0.3s] opacity-0">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center lg:items-start mb-12 animate-fade-in-up [animation-delay:0.3s] opacity-0">
               <Button 
                 size="lg" 
                 className="bg-white text-black hover:bg-white/90 px-8 py-3"
-                asChild
+                onClick={() => scrollToSection("#projects")}
               >
-                <a href="#projects"> 
-                  View projects
-                  <ExternalLink className="ml-2 h-4 w-4" />
-                </a>
+                View projects
+                <ExternalLink className="ml-2 h-4 w-4" />
               </Button>
               <Button 
                 variant="outline" 
@@ -69,7 +105,7 @@ export function HeroSection() {
               </Button>
             </div>
 
-            <div className="flex justify-start gap-6 animate-fade-in-up [animation-delay:0.4s] opacity-0">
+            <div className="flex justify-center lg:justify-start gap-6 animate-fade-in-up [animation-delay:0.4s] opacity-0">
               <a 
                 href="https://github.com/sohan20051519" 
                 target="_blank" 
@@ -95,7 +131,8 @@ export function HeroSection() {
             </div>
             </div>
 
-            <div className="w-full flex justify-center lg:justify-end">
+            {/* Profile Card - Desktop only (right side) */}
+            <div className="w-full flex justify-center lg:justify-end hidden lg:flex">
               <div className="w-[360px] sm:w-[400px] md:w-[420px] lg:w-[440px]">
                 <ProfileCard
                   name="Sohan A"
@@ -110,7 +147,7 @@ export function HeroSection() {
                   innerGradient="linear-gradient(145deg,#0f172a 0%, #1f2a44 100%)"
                   enableTilt={true}
                   enableMobileTilt={false}
-                  onContactClick={() => console.log('Contact clicked')}
+                  onContactClick={() => window.open('https://linkedin.com/in/sohan2005', '_blank', 'noopener,noreferrer')}
                 />
               </div>
             </div>

@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
+import DecryptedText from "./DecryptedText"
 
 const skillCategories = [
   {
@@ -107,13 +108,15 @@ export function SkillsSection() {
                 <h3 className="text-2xl font-semibold mb-4 gradient-text">
                   Professional Summary
                 </h3>
-                <p className="text-text-secondary leading-relaxed">
-                  Currently pursuing BCA in Computer Applications at KLE Society's Degree College, Bengaluru. 
-                  Experienced in building responsive web applications using AI-assisted coding workflows (Vibe Coding) 
-                  with modern technologies. Skilled at database management, API integration, and version control. 
-                  Familiar with DevOps practices including CI/CD pipelines, cloud deployment, and automation. 
-                  Strong problem-solving, debugging, and collaboration skills with a passion for continuous learning.
-                </p>
+                <DecryptedText
+                  text="Currently pursuing BCA in Computer Applications at KLE Society's Degree College, Bengaluru. Experienced in building responsive web applications using AI-assisted coding workflows (Vibe Coding) with modern technologies. Skilled at database management, API integration, and version control. Familiar with DevOps practices including CI/CD pipelines, cloud deployment, and automation. Strong problem-solving, debugging, and collaboration skills with a passion for continuous learning."
+                  animateOn="view"
+                  speed={40}
+                  maxIterations={12}
+                  revealDirection="center"
+                  className="text-text-secondary leading-relaxed"
+                  encryptedClassName="text-text-secondary/50"
+                />
               </CardContent>
             </Card>
           </div>
