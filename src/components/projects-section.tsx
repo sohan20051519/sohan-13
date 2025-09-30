@@ -119,9 +119,9 @@ export function ProjectsSection() {
           <div className="-mt-[8vh] relative z-10">
             <ScrollStack
               useWindowScroll
-              itemDistance={80}
+              itemDistance={70}
               itemScale={0.02}
-              itemStackDistance={45}
+              itemStackDistance={35}
               baseScale={0.92}
               rotationAmount={0}
               blurAmount={0.4}
@@ -133,18 +133,18 @@ export function ProjectsSection() {
               <ScrollStackItem key={index} itemClassName="scroll-stack-card">
                 <Card className="glass border-border-elevated group cursor-pointer overflow-hidden transform-gpu [will-change:transform] motion-reduce:transform-none">
                 <div className="flex flex-col md:flex-row h-full">
-                  <div className="relative z-0 group/image md:w-1/2">
+                  <div className="relative z-10 group/image md:w-1/2 pointer-events-none">
                     <img
                       src={project.image}
                       alt={`${project.title} preview`}
-                      className="w-full h-48 md:h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-tr-none cursor-pointer transition-all duration-300 group-hover/image:scale-105 transform-gpu"
+                      className="w-full h-48 md:h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-tr-none cursor-pointer transition-all duration-300 group-hover/image:scale-105 transform-gpu pointer-events-none"
                       onClick={() => openPreview(project.image, `${project.title} preview`, project.title)}
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-all duration-300 rounded-t-lg md:rounded-l-lg md:rounded-tr-none flex items-center justify-center">
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="opacity-0 group-hover/image:opacity-100 transition-all duration-300 text-white hover:text-white glass"
+                        className="opacity-0 group-hover/image:opacity-100 transition-all duration-300 text-white hover:text-white glass pointer-events-auto"
                         onClick={() => openPreview(project.image, `${project.title} preview`, project.title)}
                       >
                         <Eye className="h-5 w-5" />
