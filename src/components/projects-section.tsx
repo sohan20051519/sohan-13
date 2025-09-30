@@ -19,7 +19,7 @@ const projects = [
     description: "AI-driven event management platform featuring full-stack architecture, real-time updates, and interactive user experience.",
     technologies: ["Full-Stack", "AI Integration", "Real-time Updates", "Event Management"],
     liveUrl: "https://klematrix2k25.in",
-    githubUrl: "#",
+    githubUrl: "https://github.com/sohan20051519/matrix-clone-test",
     featured: true,
     image: projectMatrix
   },
@@ -28,7 +28,7 @@ const projects = [
     description: "Conversational AI chatbot website inspired by modern AI assistants with integrated backend APIs and natural language processing.",
     technologies: ["AI/ML", "Backend APIs", "Conversational AI", "NLP"],
     liveUrl: "https://nammai.live",
-    githubUrl: "#",
+    githubUrl: "https://github.com/sohan20051519/NammAI",
     featured: true,
     image: projectNammai
   },
@@ -37,7 +37,7 @@ const projects = [
     description: "Intelligent resume creation platform powered by AI that helps users build professional resumes with automated formatting, content suggestions, and industry-specific templates.",
     technologies: ["AI/ML", "React", "TypeScript", "Natural Language Processing", "PDF Generation"],
     liveUrl: "#",
-    githubUrl: "#",
+    githubUrl: "https://github.com/sohan20051519/resume",
     featured: true,
     image: "https://iili.io/KG1KP6B.md.png"
   },
@@ -46,7 +46,7 @@ const projects = [
     description: "Secure testing tool for developers that generates realistic-looking fake debit and credit card numbers for testing payment systems and e-commerce applications.",
     technologies: ["JavaScript", "Card Validation", "Testing Tools", "Security", "Payment Systems"],
     liveUrl: "#",
-    githubUrl: "#",
+    githubUrl: "https://github.com/sohan20051519/card-generator",
     featured: true,
     image: "https://iili.io/KG1qP71.md.png"
   },
@@ -55,7 +55,7 @@ const projects = [
     description: "Personal portfolio website showcasing technical skills and certifications with modern design and responsive layout.",
     technologies: ["React", "TypeScript", "Tailwind CSS", "Responsive Design"],
     liveUrl: "https://sohan.app",
-    githubUrl: "#",
+    githubUrl: "https://github.com/sohan20051519/sohan-ui.ux",
     featured: true,
     image: projectSohanUIUX
   },
@@ -64,7 +64,7 @@ const projects = [
     description: "AI-powered DevOps automation platform featuring zero-config CI/CD, smart automation, and seamless cloud integrations.",
     technologies: ["DevOps", "CI/CD", "Cloud Integration", "Automation", "AI"],
     liveUrl: "https://oneops-18.vercel.app",
-    githubUrl: "#",
+    githubUrl: "https://github.com/sohan20051519/OneOps-Landing",
     featured: true,
     image: projectOneOps
   },
@@ -73,7 +73,7 @@ const projects = [
     description: "Modern web development project featuring responsive design, interactive components, and clean UI/UX with advanced frontend technologies and seamless user experience.",
     technologies: ["React", "TypeScript", "Tailwind CSS", "Vercel", "Responsive Design"],
     liveUrl: "https://sohan-web.vercel.app",
-    githubUrl: "#",
+    githubUrl: "https://github.com/sohan20051519/sohan-web",
     featured: true,
     image: "https://i.ibb.co/XZGrp4hw/sohan-web-vercel-app.png"
   },
@@ -82,7 +82,7 @@ const projects = [
     description: "Professional portfolio website showcasing projects, skills, and experience with modern design, responsive layout, and interactive components.",
     technologies: ["React", "TypeScript", "Tailwind CSS", "Responsive Design", "UI/UX"],
     liveUrl: "#",
-    githubUrl: "#",
+    githubUrl: "https://github.com/sohan20051519/sohan-web-design",
     featured: true,
     image: "https://iili.io/KG1B1v1.md.png"
   }
