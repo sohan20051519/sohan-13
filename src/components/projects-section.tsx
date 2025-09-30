@@ -119,9 +119,9 @@ export function ProjectsSection() {
           <div className="-mt-[8vh] relative z-10">
             <ScrollStack
               useWindowScroll
-              itemDistance={70}
+              itemDistance={65}
               itemScale={0.02}
-              itemStackDistance={35}
+              itemStackDistance={30}
               baseScale={0.92}
               rotationAmount={0}
               blurAmount={0.4}
